@@ -1,0 +1,57 @@
+<?php
+
+namespace Tests\Feature\Admin;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+use App\Models\User;
+
+class auth extends TestCase
+{
+    use RefreshDatabase;
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+
+    /** @test */
+    public function registered_user_can_login()
+    {
+        $user = User::factory()->create([
+            'email'    => 'admin@gmail.com',
+            'password' => bcrypt('qweasdzxc'),
+        ]);
+
+        $this->visit('/login');
+
+        $this->submitForm('login', [
+            'email'    => 'admin@gmail.com',
+            'password' => 'qweasdzxc',
+        ]);
+
+        $this->seePageIs('/admin');
+
+        $this->seeText('Dashboard');
+    }
+
+    /** @test */
+    public function registered_user_can_logout()
+    {
+        $user = User::factory()->create([
+            'email'    => 'admin@gmail.com',
+            'password' => bcrypt('qweasdzxc'),
+        ]);
+
+        $this->actingAs($user);
+
+        $this->visit('/admin');
+
+        $this->post('/admin/logout');
+
+        $this->visit('/admin');
+
+        $this->seePageIs('/admin/login');
+    }
+}
