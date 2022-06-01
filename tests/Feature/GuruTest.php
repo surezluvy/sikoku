@@ -18,31 +18,34 @@ class GuruTest extends TestCase
      */
 
     /** @test */
-    public function guru_dapat_mengunjungi_website_memilih_paketsoal_dan_mendaftar()
+    public function guru_dapat_mengunjungi_website_memilih_paketsoal()
     {
         $this->visit('/');
-        $this->seeText('Index');
+        $this->seeText('LANDING');
 
         $paketsoal = PaketSoal::factory(3)->create();
-        $this->click('Pilih paket soal');
+        // dd($paketsoal);
+        $this->click('Lihat paket soal');
         $this->seeText('Paket soal');
 
         for($i = 0; $i <= 2; $i++){
-            $this->see($paketsoal[$i]->name);
+            $this->see($paketsoal[$i]->nama_paket);
 
             $this->seeElement('a', [
-                'href' => url('paketsoal/detail/'.$paketsoal[$i]->id)
+                'href' => url('paketsoal/detail/'.$paketsoal[$i]->paket_soal_id)
             ]);
         }
 
-        $this->click('paket_soal_'.$paketsoal[0]->id);
+        $this->click('paket_soal_'.$paketsoal[0]->paket_soal_id);
+        $this->seePageIs('/paketsoal/detail/'.$paketsoal[0]->paket_soal_id);
+        $this->click('Pilih paket soal ini');
+        $this->seePageIs('/masuk');
+    }
 
-        // DISINI HARUSNYA USER CLICK PAKETSOAL DENGAN ID 1
-        // Setelah masuk view detail paket soal, user click pilih paket soal ini lalu masuk ke bagian login
-
+    /** @test */
+    function guru_dapat_daftar_dan_memasuki_dashboard(){
         $this->visit('/masuk');
         $this->click('Daftar');
-        $this->seePageIs('/daftar');
 
         $this->submitForm('daftar', [
             'name'    => 'guru',
@@ -50,29 +53,68 @@ class GuruTest extends TestCase
             'role'    => 'guru',
             'password' => 'passwordguru',
         ]);
+
         $this->seeInDatabase('users', [
             'name'    => 'guru',
             'email'    => 'guru@gmail.com',
         ]);
 
         $this->seePageIs('masuk');
+        $this->submitForm('masuk', [
+            'email'    => 'guru@gmail.com',
+            'password' => 'passwordguru',
+        ]);
+        $this->seePageIs('/dashboard');
     }
 
-    public function guru_dapat_memilih_paketsoal()
-    {
-        $this->visit('/login');
+    /** @test */
+    function guru_terdaftar_dapat_memasuki_dashboard(){
+        $this->visit('/masuk');
+
         $user = User::factory()->create([
             'name' => 'guru',
             'email' => 'guru@gmail.com',
             'role' => 'guru',
-            'password' => bcript('passwordguru'),
+            'password' => bcrypt('passwordguru'),
         ]);
+
+        $this->submitForm('masuk', [
+            'email'    => 'guru@gmail.com',
+            'password' => 'passwordguru',
+        ]);
+
+        $this->seePageIs('/dashboard');
+    }
+
+    /** @test */
+    function guru_dapat_memilih_paket_soal_pada_dashboard(){
+        $this->visit('/masuk');
+
+        $user = User::factory()->create([
+            'name' => 'guru',
+            'email' => 'guru@gmail.com',
+            'role' => 'guru',
+            'password' => bcrypt('passwordguru'),
+        ]);
+
         $this->submitform('masuk', [
             'email' => 'guru@gmail.com',
             'password' => 'passwordguru',
         ]);
 
-        $this->seePageIs('/home');
-        $this->seeText('SELAMAT DATANG guru');
+        $this->seePageIs('/dashboard');
+        $paketsoal = PaketSoal::factory(3)->create();
+        $this->click('Paket soal');
+
+        for($i = 0; $i <= 2; $i++){
+            $this->see($paketsoal[$i]->nama_paket);
+
+            $this->seeElement('a', [
+                'href' => url('dashboard/paketsoal/'.$paketsoal[$i]->paket_soal_id)
+            ]);
+        }
+
+        $this->click('paket_soal_'.$paketsoal[0]->paket_soal_id);
+        $this->seePageIs('/dashboard/paketsoal/'.$paketsoal[0]->paket_soal_id);
     }
 }

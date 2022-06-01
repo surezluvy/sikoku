@@ -17,8 +17,37 @@ class PaketSoalFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'description' => $this->faker->text(),
+            'nama_paket' => $this->faker->name(),
+            'soal' => '
+            [
+                {
+                    "soal_pg_id": 1,
+                    "pertanyaan": "apa yang dimaksud dengan kepala batu?",
+                    "jawaban" : [
+                        {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
+                        {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
+                        {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
+                    ]
+                },
+                {
+                    "soal_pg_id": 1,
+                    "pertanyaan": "apa yang dimaksud dengan kepala batu?",
+                    "jawaban" : [
+                        {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
+                        {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
+                        {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
+                    ]
+                },
+                {
+                    "soal_pg_id": 1,
+                    "pertanyaan": "apa yang dimaksud dengan kepala batu?",
+                    "jawaban" : [
+                        {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
+                        {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
+                        {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
+                    ]
+                }
+            ]',
         ];
     }
 }

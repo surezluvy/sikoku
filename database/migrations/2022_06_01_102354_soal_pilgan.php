@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('paket_soal', function (Blueprint $table) {
-            $table->id('paket_soal_id');
-            $table->string('nama_paket');
-            $table->json('soal');
+        Schema::create('key_pilgan', function (Blueprint $table) {
+            $table->increments('key_pilgan_id');
+            $table->unsignedBigInteger('soal_pg_id');
+            $table->string('pilihan');
+            $table->integer('value_pilihan');
             $table->timestamps();
+            $table->foreign('soal_pg_id')->references('soal_pg_id')->on('soal_pilgan')->onDelete('cascade');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paket_soals');
+        //
     }
 };

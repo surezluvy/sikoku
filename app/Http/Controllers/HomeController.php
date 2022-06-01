@@ -12,23 +12,9 @@ class HomeController extends Controller
 {
     function index()
     {
-        return view('home.landing');
-    }
-
-    // Home
-    function home(){
         return view('home.index');
     }
 
-    // Profil
-    function profil()
-    {
-        return view('home.profil.index');
-    }
-    function profilEdit()
-    {
-        return view('home.profil.edit');
-    }
 
     // Paket Soal
     function paketsoal()
@@ -36,9 +22,18 @@ class HomeController extends Controller
         $paketsoal = PaketSoal::all();
         return view('home.paketsoal.index', compact('paketsoal'));
     }
-    function detailPaket($id)
+    function detailPaketSoal($id)
     {
-        $paketsoal = PaketSoal::where('id', $id)->first();
+        $paketsoal = PaketSoal::where('paket_soal_id', $id)->first();
         return view('home.paketsoal.detail', compact('paketsoal'));
+    }
+    function pilihPaketSoal($id)
+    {
+        if(Auth::user()){
+            $paketsoal = PaketSoal::where('paket_soal_id', $id)->first();
+            return view('dashboard.index', compact('paketsoal'));
+        }else{
+            return redirect('/masuk');
+        }
     }
 }

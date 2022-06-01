@@ -7,8 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>DASHBOARD</h1>
+    <h1>ADMIN DASHBOARD</h1>
     {{ auth()->user()->role }}
-    <a href="{{ route('admin-user') }}" name="user">User</a>
 </body>
 </html>

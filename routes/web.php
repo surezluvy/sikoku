@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -24,21 +24,25 @@ Route::prefix('/')->group(function () {
 
 
         Route::middleware(['auth'])->group(function () {
-            Route::prefix('/home')->group(function () {
-                Route::get('/', 'home')->name('home');
+            Route::controller(DashboardController::class)->group(function () {
+                Route::prefix('/dashboard')->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/paketsoal', 'paketSoal')->name('dashboard-paketSoal');
+                    Route::get('/paketsoal/{id}', 'detailPaketSoal')->name('dashboard-detailPaket');
+                });
             });
-
-            Route::prefix('/profil')->group(function () {
-                Route::get('/', 'profil')->name('profil');
-                Route::get('/edit', 'profilEdit')->name('profilEdit');
-                Route::post('/edit', 'profilEditProcess')->name('profilEditProcess');
+            Route::controller(AdminController::class)->group(function () {
+                Route::prefix('/admin')->group(function () {
+                    Route::get('/', 'index')->name('index');
+                });
             });
         });
 
         Route::middleware(['guest'])->group(function () {
             Route::prefix('/paketsoal')->group(function () {
                 Route::get('/', 'paketsoal')->name('paketsoal');
-                Route::get('/detail/{id}', 'detailPaket')->name('detailPaket');
+                Route::get('/detail/{id}', 'detailPaketSoal')->name('detailPaket');
+                Route::get('/pilih/{id}', 'pilihPaketSoal')->name('pilihPaket');
             });
         });
 

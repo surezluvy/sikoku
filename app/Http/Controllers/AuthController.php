@@ -15,7 +15,7 @@ class AuthController extends Controller
     }
 
     // AUTH
-    function masuk(){
+    function masuk($idPaketSoal = null){
         return view('home.auth.login');
     }
     function prosesMasuk(Request $request){
@@ -29,10 +29,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             if($userLogged->role == 'admin' || $userLogged->role == 'psikolog'){
                 $request->session()->regenerate();
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/admin');
             }elseif($userLogged->role == 'guru' || $userLogged->role == 'siswa'){
                 $request->session()->regenerate();
-                return redirect()->intended('/profil');
+                return redirect()->intended('/dashboard');
             }
         }
 

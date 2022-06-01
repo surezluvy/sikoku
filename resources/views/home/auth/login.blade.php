@@ -11,7 +11,7 @@
         @csrf
         <input type="email" name="email">
         <input type="password" name="password">
-        <button type="submit" name="login">Login</button>
+        <button type="submit" name="masuk">Masuk</button>
     </form>
     <a href="{{ route('daftar') }}">Daftar</a>
 </body>
