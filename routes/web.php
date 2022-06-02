@@ -22,7 +22,6 @@ Route::prefix('/')->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('index');
 
-
         Route::middleware(['auth'])->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::prefix('/dashboard')->group(function () {
@@ -34,6 +33,23 @@ Route::prefix('/')->group(function () {
             Route::controller(AdminController::class)->group(function () {
                 Route::prefix('/admin')->group(function () {
                     Route::get('/', 'index')->name('index');
+
+                    Route::prefix('/soal')->group(function () {
+                        Route::get('/{tipe}', 'soal')->name('admin-soal');
+                        Route::get('/tambah-soal/{tipe}', 'tambahSoal')->name('admin-tambahSoal');
+                        Route::post('/tambah-soal', 'prosesTambahSoal')->name('admin-prosesTambahSoal');
+
+                        Route::get('/ubah-soal/{id}/{tipe}', 'ubahSoal')->name('admin-ubahSoal');
+                        Route::post('/ubah-soal', 'prosesUbahSoal')->name('admin-prosesUbahSoal');
+
+                        Route::get('/ubah-jawaban/{id}/{tipe}', 'ubahJawaban')->name('admin-ubahJawaban');
+                        Route::post('/ubah-jawaban', 'prosesUbahJawaban')->name('admin-prosesUbahJawaban');
+
+                        Route::get('/tambah-jawaban/{id}/{tipe}', 'tambahJawaban')->name('admin-tambahJawaban');
+                        Route::post('/tambah-jawaban', 'prosesTambahJawaban')->name('admin-prosesTambahJawaban');
+
+                        Route::get('/hapus-soal/{id}/{tipe}', 'prosesHapusSoal')->name('admin-prosesHapusSoal');
+                    });
                 });
             });
         });
@@ -49,6 +65,9 @@ Route::prefix('/')->group(function () {
     });
 
     Route::controller(AuthController::class)->group(function () {
+        Route::middleware(['auth'])->group(function () {
+            Route::get('/logout', 'logout')->name('admin-logout');
+        });
         Route::middleware(['guest'])->group(function () {
             Route::get('/masuk', 'masuk')->name('masuk');
             Route::post('/masuk', 'prosesMasuk')->name('masuk');

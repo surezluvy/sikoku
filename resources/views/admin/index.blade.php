@@ -9,5 +9,16 @@
 <body>
     <h1>ADMIN DASHBOARD</h1>
     {{ auth()->user()->role }}
+
+    {{-- NAVBAR --}}
+    <ul>
+        <h1>Soal</h1>
+        <li>
+            <a href="{{ route('admin-soal', 'pilgan') }}">Pilihan Ganda</a>
+            <a href="{{ route('admin-soal', '2d') }}">Pilihan 2d</a>
+        </li>
+    </ul>
+
+    <a href="{{ route('admin-logout') }}">Logout</a>
 </body>
 </html>

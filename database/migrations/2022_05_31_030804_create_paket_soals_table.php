@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('paket_soal', function (Blueprint $table) {
             $table->id('paket_soal_id');
+            $table->unsignedBigInteger('user_add')->nullable();
             $table->string('nama_paket');
             $table->json('soal');
             $table->timestamps();
+            $table->foreign('user_add')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 
