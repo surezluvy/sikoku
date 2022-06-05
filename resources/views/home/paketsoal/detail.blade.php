@@ -17,8 +17,18 @@
     <a href="{{ route('masuk') }}">Login</a>
     @endguest
     <h1>Paket soal</h1>
-    <h4>{{ $paketsoal->nama_paket }}</h4>
-    <p>{{ $paketsoal->soal }}</p>
+    <td>Nama Paket: {{ $paketsoal->nama_paket }}</td>
+    @foreach($paketsoal->soal as $soal)
+        <td>Pertanyaan:  {{ $soal['pertanyaan'] }}
+            <table border="2" bordercolor="blue">
+                <tr>
+                    @foreach($soal['jawaban'] as $jawaban)
+                        <td>{{ $jawaban['pilihan'] }}</td>
+                    @endforeach
+                </tr>
+            </table>
+        </td>
+    @endforeach
 
     <a href="{{ route('pilihPaket', $paketsoal->paket_soal_id) }}">Pilih paket soal ini</a>
 </body>

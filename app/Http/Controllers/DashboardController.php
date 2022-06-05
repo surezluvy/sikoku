@@ -17,11 +17,11 @@ class DashboardController extends Controller
     function paketSoal()
     {
         $paketsoal = PaketSoal::all();
-        return view('dashboard.paketsoal', compact('paketsoal'));
+        return view('dashboard.paket-soal.index', compact('paketsoal'));
     }
     function detailPaketSoal($id)
     {
         $paketsoal = PaketSoal::where('paket_soal_id', $id)->first();
-        return view('dashboard.detail', compact('paketsoal'));
+        return view('dashboard.paket-soal.detail', compact('paketsoal'));
     }
 }

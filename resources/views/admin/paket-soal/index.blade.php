@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-
 <body>
-    @auth
-    {{ auth()->user()->role }}
-    @endauth
-
-    @guest
-    <a href="{{ route('masuk') }}">Login</a>
-    @endguest
-    <h1>Paket soal</h1>
+    <h1>Paket Soal</h1>
+    <a href="{{ route('admin-tambahPaketSoal') }}">Tambah paket soal</a>
     <table style="width:100%" border="2" bordercolor="green">
         <tr>
             @foreach($paketSoal as $paket)
@@ -32,10 +24,10 @@
                         </table>
                     </td>
                 @endforeach
-                <a href="{{ route('detailPaket', $paket->paket_soal_id) }}" id="paket_soal_{{ $paket->paket_soal_id }}">Detail paket soal</a>
+                <a href="{{ route('admin-ubahPaketSoal', $paket->paket_soal_id) }}" id="ubah_paket_soal_{{ $paket->paket_soal_id }}">Ubah paket ini</a>
+                <a href="{{ route('admin-hapusPaketSoal', $paket->paket_soal_id) }}" id="hapus_paket_soal_{{ $paket->paket_soal_id }}">Hapus paket ini</a>
             @endforeach
         </tr>
     </table>
 </body>
-
 </html>

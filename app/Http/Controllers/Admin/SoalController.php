@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SoalPilgan;
 use App\Models\Soal2d;
 use App\Models\Key2d;
 use App\Models\KeyPilgan;
 
-class AdminController extends Controller
+class SoalController extends Controller
 {
-    function index()
-    {
-        return view('admin.index');
-    }
-    function soal($tipe){
+    function index($tipe){
         if($tipe == 'pilgan'){
             $kumpulan_soal = SoalPilgan::with('key')->get();
             $id = 'soal_pg_id';

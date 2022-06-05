@@ -16,10 +16,12 @@
     @guest
     <a href="{{ route('masuk') }}">Login</a>
     @endguest
-    <h1>Paket soal</h1>
+    <h1>DASHBOARD PAKET SOAL</h1>
+
+
     <table style="width:100%" border="2" bordercolor="green">
         <tr>
-            @foreach($paketSoal as $paket)
+            @foreach($paketsoal as $paket)
                 <td>Nama Paket: {{ $paket->nama_paket }}</td>
                 @foreach($paket->soal as $soal)
                     <td>Pertanyaan:  {{ $soal['pertanyaan'] }}
@@ -32,7 +34,7 @@
                         </table>
                     </td>
                 @endforeach
-                <a href="{{ route('detailPaket', $paket->paket_soal_id) }}" id="paket_soal_{{ $paket->paket_soal_id }}">Detail paket soal</a>
+                <a href="{{ route('dashboard-detailPaket', $paket->paket_soal_id) }}" id="paket_soal_{{ $paket->paket_soal_id }}">Detail paket soal</a>
             @endforeach
         </tr>
     </table>

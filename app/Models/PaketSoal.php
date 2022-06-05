@@ -11,4 +11,5 @@ class PaketSoal extends Model
     protected $table = 'paket_soal';
     protected $guarded = ['paket_soal_id'];
     protected $primaryKey = 'paket_soal_id';
+    protected $casts = ['soal' => 'array'];
 }

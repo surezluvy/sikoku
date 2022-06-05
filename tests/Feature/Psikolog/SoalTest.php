@@ -1,16 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Psikolog;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 use App\Models\User;
 use App\Models\SoalPilgan;
+use App\Models\Soal2d;
 use App\Models\KeyPilgan;
 use App\Models\PaketSoal;
 
-class PsikologTest extends TestCase
+class SoalTest extends TestCase
 {
     use RefreshDatabase;
     /**
@@ -27,33 +29,6 @@ class PsikologTest extends TestCase
             'role' => 'psikolog',
             'password' => bcrypt('passwordpsikolog'),
         ]);
-        $this->submitForm('masuk', [
-            'email'    => 'psikolog@gmail.com',
-            'password' => 'passwordpsikolog',
-        ]);
-        $this->seePageIs('/admin');
-    }
-
-    /** @test */
-    public function psikolog_dapat_memasuki_dashboard()
-    {
-        $this->visit('/');
-        $this->click('Masuk');
-        $this->click('Daftar');
-
-        $this->submitForm('daftar', [
-            'name'    => 'psikolog',
-            'email'    => 'psikolog@gmail.com',
-            'role'    => 'psikolog',
-            'password' => 'passwordpsikolog',
-        ]);
-
-        $this->seeInDatabase('users', [
-            'name'    => 'psikolog',
-            'email'    => 'psikolog@gmail.com',
-        ]);
-
-        $this->seePageIs('masuk');
         $this->submitForm('masuk', [
             'email'    => 'psikolog@gmail.com',
             'password' => 'passwordpsikolog',
@@ -110,7 +85,7 @@ class PsikologTest extends TestCase
         }
 
         $this->click('ubah_soal_1');
-        $this->seePageIs('/admin/soal/ubah-soal/1/pilgan');
+        $this->seePageIs('/admin/soal/ubah/1/pilgan');
         $this->submitForm('lanjut', [
             'pertanyaan'    => 'Apa itu kawan?'
         ]);
@@ -179,10 +154,4 @@ class PsikologTest extends TestCase
         $this->dontSeeText($kumpulan_soal[0]->pertanyaan);
     }
 
-    /** @test */
-    public function psikolog_yang_telah_login_dapat_logout(){
-        $this->psikolog_login();
-        $this->click('Logout');
-        $this->seePageIs('/');
-    }
 }

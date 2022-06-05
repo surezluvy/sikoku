@@ -10,6 +10,7 @@
 
 <body>
     {{ auth()->user()->role }}
+    <a href="{{ route('admin-logout') }}">Logout</a>
 
     <h1>DASHBOARD</h1>
 

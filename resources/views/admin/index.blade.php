@@ -17,6 +17,9 @@
             <a href="{{ route('admin-soal', 'pilgan') }}">Pilihan Ganda</a>
             <a href="{{ route('admin-soal', '2d') }}">Pilihan 2d</a>
         </li>
+        <li>
+            <a href="{{ route('admin-paketSoal') }}">Paket Soal</a>
+        </li>
     </ul>
 
     <a href="{{ route('admin-logout') }}">Logout</a>
