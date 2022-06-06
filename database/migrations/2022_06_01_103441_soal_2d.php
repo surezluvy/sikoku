@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('soal_2d', function (Blueprint $table) {
-            $table->increments('soal_2d_id');
+            $table->id('soal_2d_id');
             $table->text('pertanyaan');
             $table->timestamps();
         });

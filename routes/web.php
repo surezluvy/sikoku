@@ -27,46 +27,60 @@ Route::prefix('/')->group(function () {
         Route::middleware(['auth'])->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::prefix('/dashboard')->group(function () {
-                    Route::get('/', 'index')->name('index');
-                    Route::get('/paketsoal', 'paketSoal')->name('dashboard-paketSoal');
-                    Route::get('/paketsoal/{id}', 'detailPaketSoal')->name('dashboard-detailPaket');
+                    Route::get('/', 'index')->name('dashboard');
+
+                    Route::prefix('/paketsoal')->group(function () {
+                        Route::get('/', 'paketSoal')->name('dashboard-paketSoal');
+                        Route::get('/{id}', 'detailPaketSoal')->name('dashboard-detailPaket');
+                        Route::get('/{id}/bayar', 'bayarPaketSoal')->name('dashboard-bayarPaket');
+                        Route::post('/bayar', 'prosesBayarPaketSoal')->name('dashboard-prosesBayarPaket');
+                    });
+
+                    Route::prefix('/batch-ujian')->group(function () {
+                        Route::get('/', 'batch')->name('dashboard-batch');
+                        Route::get('/tambah', 'tambahBatch')->name('dashboard-tambahBatch');
+                        Route::post('/tambah', 'prosesTambahBatch')->name('dashboard-prosesTambahBatch');
+                    });
+
                 });
             });
 
-            Route::controller(AdminController::class)->group(function () {
-                Route::prefix('/admin')->group(function () {
-                    Route::get('/', 'index')->name('index');
+            Route::middleware(['auth', 'isAdmin'])->group(function () {
+                Route::controller(AdminController::class)->group(function () {
+                    Route::prefix('/admin')->group(function () {
+                        Route::get('/', 'index')->name('admin');
 
-                    Route::controller(SoalController::class)->group(function () {
-                        Route::prefix('/soal')->group(function () {
-                            Route::get('/{tipe}', 'index')->name('admin-soal');
-                            Route::get('/tambah/{tipe}', 'tambahSoal')->name('admin-tambahSoal');
-                            Route::post('/tambah', 'prosesTambahSoal')->name('admin-prosesTambahSoal');
+                        Route::controller(SoalController::class)->group(function () {
+                            Route::prefix('/soal')->group(function () {
+                                Route::get('/{tipe}', 'index')->name('admin-soal');
+                                Route::get('/tambah/{tipe}', 'tambahSoal')->name('admin-tambahSoal');
+                                Route::post('/tambah', 'prosesTambahSoal')->name('admin-prosesTambahSoal');
 
-                            Route::get('/ubah/{id}/{tipe}', 'ubahSoal')->name('admin-ubahSoal');
-                            Route::post('/ubah', 'prosesUbahSoal')->name('admin-prosesUbahSoal');
+                                Route::get('/ubah/{id}/{tipe}', 'ubahSoal')->name('admin-ubahSoal');
+                                Route::post('/ubah', 'prosesUbahSoal')->name('admin-prosesUbahSoal');
 
-                            Route::get('/ubah-jawaban/{id}/{tipe}', 'ubahJawaban')->name('admin-ubahJawaban');
-                            Route::post('/ubah-jawaban', 'prosesUbahJawaban')->name('admin-prosesUbahJawaban');
+                                Route::get('/ubah-jawaban/{id}/{tipe}', 'ubahJawaban')->name('admin-ubahJawaban');
+                                Route::post('/ubah-jawaban', 'prosesUbahJawaban')->name('admin-prosesUbahJawaban');
 
-                            Route::get('/tambah-jawaban/{id}/{tipe}', 'tambahJawaban')->name('admin-tambahJawaban');
-                            Route::post('/tambah-jawaban', 'prosesTambahJawaban')->name('admin-prosesTambahJawaban');
+                                Route::get('/tambah-jawaban/{id}/{tipe}', 'tambahJawaban')->name('admin-tambahJawaban');
+                                Route::post('/tambah-jawaban', 'prosesTambahJawaban')->name('admin-prosesTambahJawaban');
 
-                            Route::get('/hapus/{id}/{tipe}', 'prosesHapusSoal')->name('admin-prosesHapusSoal');
+                                Route::get('/hapus/{id}/{tipe}', 'prosesHapusSoal')->name('admin-prosesHapusSoal');
+                            });
                         });
-                    });
 
-                    Route::controller(PaketSoalController::class)->group(function () {
-                        Route::prefix('/paket-soal')->group(function () {
-                            Route::get('/', 'index')->name('admin-paketSoal');
+                        Route::controller(PaketSoalController::class)->group(function () {
+                            Route::prefix('/paket-soal')->group(function () {
+                                Route::get('/', 'index')->name('admin-paketSoal');
 
-                            Route::get('/tambah', 'tambahPaketSoal')->name('admin-tambahPaketSoal');
-                            Route::post('/tambah', 'prosesTambahPaketSoal')->name('admin-prosesTambahPaketSoal');
+                                Route::get('/tambah', 'tambahPaketSoal')->name('admin-tambahPaketSoal');
+                                Route::post('/tambah', 'prosesTambahPaketSoal')->name('admin-prosesTambahPaketSoal');
 
-                            Route::get('/ubah/{id}', 'ubahPaketSoal')->name('admin-ubahPaketSoal');
-                            Route::post('/ubah/{id}', 'prosesUbahPaketSoal')->name('admin-prosesUbahPaketSoal');
+                                Route::get('/ubah/{id}', 'ubahPaketSoal')->name('admin-ubahPaketSoal');
+                                Route::post('/ubah/{id}', 'prosesUbahPaketSoal')->name('admin-prosesUbahPaketSoal');
 
-                            Route::get('/hapus/{id}', 'hapusPaketSoal')->name('admin-hapusPaketSoal');
+                                Route::get('/hapus/{id}', 'hapusPaketSoal')->name('admin-hapusPaketSoal');
+                            });
                         });
                     });
                 });
@@ -74,6 +88,7 @@ Route::prefix('/')->group(function () {
         });
 
         Route::middleware(['guest'])->group(function () {
+            Route::get('/import', 'import')->name('import');
             Route::prefix('/paketsoal')->group(function () {
                 Route::get('/', 'paketsoal')->name('paketsoal');
                 Route::get('/detail/{id}', 'detailPaketSoal')->name('detailPaket');

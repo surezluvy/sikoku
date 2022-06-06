@@ -29,7 +29,7 @@
         </td>
     @endforeach
 
-    <a href="{{ route('pilihPaket', $paketsoal->paket_soal_id) }}">Pilih paket soal ini</a>
+    <a href="{{ route('dashboard-bayarPaket', $paketsoal->paket_soal_id) }}">Pilih paket soal ini</a>
 </body>
 
 </html>

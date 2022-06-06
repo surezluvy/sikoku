@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_add')->nullable();
             $table->string('nama_paket');
             $table->json('soal');
+            $table->bigInteger('harga')->nullable();
             $table->timestamps();
             $table->foreign('user_add')->references('user_id')->on('users')->onDelete('cascade');
         });

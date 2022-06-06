@@ -20,18 +20,6 @@ class HomeController extends Controller
     function paketsoal()
     {
         $paketSoal = PaketSoal::all();
-        // foreach($paketSoal as $paket){
-        //     foreach($paket->soal as $soal){
-        //         dd($soal['pertanyaan']);
-        //         foreach($soal['jawaban'] as $jawaban){
-        //             // $jawaban['key_pilgan_id'];
-        //             // $jawaban['pilihan'];
-        //             // $jawaban['value_pilihan'];
-        //             dd($jawaban['pilihan']);
-        //         }
-        //     }
-        // }
-        // dd($paketSoal[1]->soal[0]['jawaban'][0]);
         return view('home.paketsoal.index', compact('paketSoal'));
     }
     function detailPaketSoal($id)
@@ -47,5 +35,8 @@ class HomeController extends Controller
         }else{
             return redirect('/masuk');
         }
+    }
+    function import(){
+        return view('dashboard.import');
     }
 }

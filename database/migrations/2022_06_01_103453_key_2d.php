@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('key_2d', function (Blueprint $table) {
-            $table->increments('key_2d_id');
+            $table->id('key_2d_id');
             $table->unsignedBigInteger('soal_2d_id');
             $table->string('pilihan');
             $table->integer('value_pilihan');

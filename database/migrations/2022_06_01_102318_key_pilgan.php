@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('soal_pilgan', function (Blueprint $table) {
-            $table->increments('soal_pg_id');
+            $table->id('soal_pg_id');
             $table->text('pertanyaan');
             $table->timestamps();
         });

@@ -50,7 +50,7 @@ class PaketSoalTest extends TestCase
     }
 
     /** @test */
-    public function psikolog_dapat_membuat_paket_soal_dari_beberapa_soal(){
+    public function psikolog_dapat_menambah_paket_soal_dari_beberapa_soal(){
         $this->psikolog_login();
         $this->click('Paket Soal');
 

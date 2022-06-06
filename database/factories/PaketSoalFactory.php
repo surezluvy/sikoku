@@ -18,7 +18,7 @@ class PaketSoalFactory extends Factory
     {
         return [
             'nama_paket' => $this->faker->name(),
-            "soal" => [
+            'soal' => [
                 [
                 "pertanyaan" => "Joanna",
                 "soal_pg_id" => 0,
@@ -68,50 +68,6 @@ class PaketSoalFactory extends Factory
                     "value_pilihan" => 2
                 ]],
             ]],
-            // 'soal' => [
-            //     'soal_pg_id' => $this->faker->numberBetween(1, 10),
-            //     'pertanyaan' => $this->faker->sentence(),
-            //     'jawaban' => [
-            //         ['key_pilgan_id' => 1, 'pilihan' => 'ayam', 'value_pilihan' => $this->faker->numberBetween(1, 10)],
-            //         ['key_pilgan_id' => 2, 'pilihan' => 'bebek', 'value_pilihan' => $this->faker->numberBetween(1, 10)],
-            //         ['key_pilgan_id' => 3, 'pilihan' => 'cicak', 'value_pilihan' => $this->faker->numberBetween(1, 10)],
-            //     ],
-            // ]
-            // 'soal' => [
-            //     'size' => ['S', 'M', 'L'][rand(0,2)],
-            //     'color' => ['S', 'M', 'L'][rand(0,2)],
-            //     'origin' => ['S', 'M', 'L'][rand(0,2)],
-            // ]
-            // 'soal' => '
-            // [
-                //     {
-                //         "soal_pg_id": 1,
-                //         "pertanyaan": "apa yang dimaksud dengan kepala batu?",
-                //         "jawaban" : [
-                //             {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
-                //             {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
-                //             {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
-                //         ]
-                //     },
-                //     {
-                //         "soal_pg_id": 1,
-                //         "pertanyaan": "apa yang dimaksud dengan kepala batu?",
-                //         "jawaban" : [
-                //             {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
-                //             {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
-                //             {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
-                //         ]
-                //     },
-                //     {
-                //         "soal_pg_id": 1,
-                //         "pertanyaan": "apa yang dimaksud dengan kepala batu?",
-                //         "jawaban" : [
-                //             {"key_pilgan_id": 1, "pilihan": "ayam", "value_pilihan": 50},
-                //             {"key_pilgan_id": 2, "pilihan": "bebk", "value_pilihan": 100},
-                //             {"key_pilgan_id": 3, "pilihan": "cicak", "value_pilihan": 150}
-                //         ]
-                //     }
-            // ]',
         ];
     }
 }
