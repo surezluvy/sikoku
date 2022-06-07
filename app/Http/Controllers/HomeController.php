@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
 use App\Models\PaketSoal;
+use App\Models\Transaksi;
+use App\Models\BatchUjian;
 
 class HomeController extends Controller
 {
@@ -14,8 +17,6 @@ class HomeController extends Controller
     {
         return view('home.index');
     }
-
-
     // Paket Soal
     function paketsoal()
     {
@@ -35,8 +36,5 @@ class HomeController extends Controller
         }else{
             return redirect('/masuk');
         }
-    }
-    function import(){
-        return view('dashboard.import');
     }
 }

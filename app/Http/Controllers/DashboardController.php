@@ -70,14 +70,14 @@ class DashboardController extends Controller
             $token = now()->format('dy').$request->transaksi_id.$randomNumber;
             array_push($siswa, [
                 'nama_siswa' => $s['nama'],
-                'token' => $token
+                'token' => $token,
+                'tanggal_lahir' => $s['tanggal_lahir']
             ]);
         }
 
         BatchUjian::create([
             'transaksi_id' => $request->transaksi_id,
-            'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
-            'jam_pelaksanaan' => $request->jam_pelaksanaan,
+            'waktu_pelaksanaan' => $request->waktu_pelaksanaan,
             'siswa' => $siswa
         ]);
 

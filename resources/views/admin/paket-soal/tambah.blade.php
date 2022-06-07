@@ -10,6 +10,7 @@
     <h1>Tambah paket soal</h1>
     <form action="{{ route('admin-prosesTambahPaketSoal') }}" method="post">
         <input type="text" name="nama_paket">
+        <input type="time" name="waktu_pengerjaan">
         <div>
             <h4>Soal Pilihan Ganda</h4>
             @foreach($soalPilgan as $s)

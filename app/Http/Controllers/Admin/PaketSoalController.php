@@ -70,6 +70,7 @@ class PaketSoalController extends Controller
         }
         PaketSoal::create([
             'nama_paket' => $request->nama_paket,
+            'waktu_pengerjaan' => $request->waktu_pengerjaan,
             'soal' => $paketSoal,
         ]);
         return redirect()->route('admin-paketSoal');

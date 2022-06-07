@@ -19,8 +19,7 @@
     @else
         @foreach($batch as $b)
             <p>{{ $b->batch_id }}</p>
-            <p>Tanggal pelaksanaan: {{ $b->tanggal_pelaksanaan }}</p>
-            <p>jam pelaksanaan: {{ $b->jam_pelaksanaan }}</p>
+            <p>Waktu pelaksanaan: {{ $b->waktu_pelaksanaan }}</p>
             <ul>
                 @foreach($b->siswa as $siswa)
                     <li>{{ $siswa['nama_siswa'] }} || {{ $siswa['token'] }}</li>

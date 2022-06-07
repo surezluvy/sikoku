@@ -64,6 +64,7 @@ class PaketSoalTest extends TestCase
 
         $this->submitForm('Tambah paket soal', [
             'nama_paket'    => 'Paket 1',
+            'waktu_pengerjaan'    => "02:30",
             'soalPilgan[1]' => $soalPilgan[0]->soal_pg_id,
             'soalPilgan[3]' => $soalPilgan[2]->soal_pg_id,
             'soal2d[1]' => $soal2d[0]->soal_2d_id,

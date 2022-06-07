@@ -14,7 +14,7 @@ use App\Models\Key2d;
 use App\Models\PaketSoal;
 use App\Models\Transaksi;
 
-class GuruTest extends TestCase
+class PaketSoalTest extends TestCase
 {
     use RefreshDatabase;
     /**

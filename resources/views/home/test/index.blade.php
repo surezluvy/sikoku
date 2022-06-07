@@ -7,16 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    @auth
-        Selamat datang {{ auth()->user()->username }}
-    @endauth
-
-    @guest
-        <a href="{{ route('masuk') }}">Masuk</a>
-    @endguest
-    <h1>LANDING</h1>
-    <a href="{{ route('paketsoal') }}">Lihat paket soal</a>
-
     {{-- POPUP ERROR --}}
     @if(session('error'))
         {{ session('error') }}

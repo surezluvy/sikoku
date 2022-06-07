@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('batch_ujian', function (Blueprint $table) {
             $table->id('batch_id');
             $table->unsignedBigInteger('transaksi_id');
-            $table->date('tanggal_pelaksanaan');
-            $table->time('jam_pelaksanaan');
+            $table->dateTime('waktu_pelaksanaan')->nullable();
             $table->json('siswa');
             $table->timestamps();
             $table->foreign('transaksi_id')->references('transaksi_id')->on('transaksi')->onDelete('cascade');

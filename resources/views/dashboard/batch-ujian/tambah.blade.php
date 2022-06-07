@@ -26,8 +26,7 @@
                     @endforeach --}}
                 @endforeach
             </select>
-            <input type="date" name="tanggal_pelaksanaan">
-            <input type="date" name="jam_pelaksanaan">
+            <input type="datetime-local" name="waktu_pelaksanaan">
             <input type="file" name="siswa">
             <button type="submit" value="Tambah">Tambah</button>
         </form>

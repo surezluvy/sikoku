@@ -18,6 +18,7 @@ class PaketSoalFactory extends Factory
     {
         return [
             'nama_paket' => $this->faker->name(),
+            'waktu_pengerjaan' => "02:30",
             'soal' => [
                 [
                 "pertanyaan" => "Joanna",

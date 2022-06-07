@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PaketSoalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +89,15 @@ Route::prefix('/')->group(function () {
         });
 
         Route::middleware(['guest'])->group(function () {
-            Route::get('/import', 'import')->name('import');
+            Route::controller(TestController::class)->group(function () {
+                Route::prefix('/test')->group(function () {
+                    Route::get('/', 'index')->name('test');
+                    Route::get('/detail', 'detail')->name('test-detail');
+                    Route::get('/validasi', 'validasiSiswa')->name('test-validasi');
+                    Route::post('/inputToken', 'inputToken')->name('inputToken');
+                    Route::get('/mulai', 'mulaiTest')->name('test-mulai');
+                });
+            });
             Route::prefix('/paketsoal')->group(function () {
                 Route::get('/', 'paketsoal')->name('paketsoal');
                 Route::get('/detail/{id}', 'detailPaketSoal')->name('detailPaket');
