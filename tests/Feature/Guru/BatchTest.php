@@ -107,13 +107,13 @@ class BatchTest extends TestCase
         $this->submitForm('Tambah', [
             'transaksi_id' => '1',
 
-            // BUG: tidak bisa menambahkan waktu pelaksanaan, tapi mungkin di browser bisa
-            // 'waktu_pelaksanaan' => '2022-06-04 11:30:00',
+            // SOLVED: tidak bisa menambahkan waktu pelaksanaan, tapi mungkin di browser bisa
+            'waktu_pelaksanaan' => '11:30:00',
             'siswa' => $file
         ]);
         $this->seeInDatabase('batch_ujian', [
             'transaksi_id' => 1,
-            // 'tanggal_pelaksanaan' => '2022-06-04',
+            'waktu_pelaksanaan' => '11:30:00',
             // 'jam_pelaksanaan' => '00:00:00',
         ]);
 

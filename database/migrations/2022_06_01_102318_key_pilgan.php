@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('soal_pilgan', function (Blueprint $table) {
-            $table->id('soal_pg_id');
-            $table->text('pertanyaan');
+        Schema::create('key_pilgan', function (Blueprint $table) {
+            $table->id('key_pilgan_id');
+            $table->unsignedBigInteger('soal_pg_id');
+            $table->string('pilihan');
+            $table->integer('value_pilihan');
             $table->timestamps();
+            $table->foreign('soal_pg_id')->references('soal_pg_id')->on('soal_pilgan')->onDelete('cascade');
         });
     }
 

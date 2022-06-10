@@ -29,6 +29,6 @@
 
     <h4>Guru yang mendaftarkan anda adalah {{ $guru->name }}</h4>
 
-    <a href="{{ route('test-mulai') }}">Mulai tes</a>
+    <a href="{{ route('test-mulai', 1) }}">Mulai test</a>
 </body>
 </html>

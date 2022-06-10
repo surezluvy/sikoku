@@ -15,7 +15,7 @@ class AuthController extends Controller
     }
 
     // AUTH
-    function masuk($idPaketSoal = null){
+    function masuk(){
         return view('home.auth.login');
     }
     function prosesMasuk(Request $request){
@@ -29,10 +29,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             if($userLogged->role == 'admin' || $userLogged->role == 'psikolog'){
                 $request->session()->regenerate();
-                return redirect()->intended('/admin');
-            }elseif($userLogged->role == 'guru' || $userLogged->role == 'siswa'){
+                return redirect()->route('admin');
+            }else if($userLogged->role == 'guru' || $userLogged->role == 'siswa'){
                 $request->session()->regenerate();
-                return redirect()->intended('/dashboard');
+                return redirect()->route('dashboard');
             }
         }
 
@@ -63,5 +63,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/')->with('success', 'Berhasil logout.');
+    }
+
+    function login(){
+        return view('login');
+    }
+
+    function prosesLogin(Request $request){
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+        return back()->with('error', 'Login gagal! Silahkan perbaiki data anda');
     }
 }

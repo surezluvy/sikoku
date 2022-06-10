@@ -91,7 +91,7 @@ class PaketSoalTest extends TestCase
         $this->click('Paket Soal');
         $this->click('ubah_paket_soal_'. $paketSoal[0]->paket_soal_id);
 
-        // BARU BISA MENGUBAH NAMA PAKET, SOAL BELUM BISA DIUBAH
+        // TODO: BARU BISA MENGUBAH NAMA PAKET, SOAL BELUM BISA DIUBAH
         $this->submitForm('Simpan', [
             'nama_paket' => 'Paket telah di ubah'
         ]);
@@ -113,6 +113,7 @@ class PaketSoalTest extends TestCase
         $key2d = Key2d::factory(3)->create();
         $paketSoal = PaketSoal::factory(3)->create();
 
+        // BUG: Tidak bisa menghapus paket soal di phpunit, dengan error no such table, padahal di browser aman
         $this->click('Paket Soal');
         $this->click('hapus_paket_soal_'. $paketSoal[0]->paket_soal_id);
 

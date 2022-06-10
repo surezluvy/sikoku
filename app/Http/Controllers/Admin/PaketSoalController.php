@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BatchUjian;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\SoalPilgan;
@@ -88,8 +89,7 @@ class PaketSoalController extends Controller
         return redirect()->route('admin-paketSoal');
     }
     function hapusPaketSoal($id){
-        $paketSoal = PaketSoal::find($id);
-        $paketSoal->delete();
+        PaketSoal::find($id)->delete();
         return redirect()->route('admin-paketSoal');
     }
 }

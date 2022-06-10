@@ -13,8 +13,9 @@
     @endif
     {{-- INI FORM POPUP KETIKA TOMBOL MASUKAN TOKEN DI CLICK --}}
     <form action="{{ route('inputToken') }}" method="post">
+        @csrf
         <input type="text" name="token">
-        <button type="submit">Mulai tes</button>
+        <button type="submit">Mulai test</button>
     </form>
 </body>
 </html>

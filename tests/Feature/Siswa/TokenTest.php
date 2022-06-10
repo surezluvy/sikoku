@@ -34,7 +34,7 @@ class TokenTest extends TestCase
         BatchUjian::factory(3)->create();
 
         $this->visit('/test');
-        $this->submitForm('Mulai tes', [
+        $this->submitForm('Mulai test', [
             // TODO: Token masih ngawur jadi kemungkinan besar salah
             'token' => '1',
         ]);
@@ -46,6 +46,27 @@ class TokenTest extends TestCase
         $this->siswa_dapat_memasuki_website_dan_memasukan_token();
 
         $this->click('Lanjut');
-        $this->dump();
+        $this->seePageIs('test/detail');
+        $this->click('Mulai test');
+
+        // TODO: Disini harusnya keluar instruksi, tapi di skip karena erd belum dibuat
+        $soal = session('soal');
+        $id = session('id')-1;
+        // Siswa mengisi semua soal
+        for($i = 0, $iMax = count($soal); $i < $iMax; $i++) {
+            if($id < count($soal)-1) {
+                $this->submitForm('Lanjut',[
+                    'pilihan' => $soal[$id]['jawaban'][0]['pilihan'],
+                ]);
+                $id++;
+            }else{
+                $this->submitForm('Selesai',[
+                    'pilihan' => $soal[$id]['jawaban'][0]['pilihan'],
+                ]);
+            }
+        }
+        // Siswa melihat tulisan Test Telah selesai
+        $this->seeText('TEST TELAH SELESAI');
+        $this->click('Kirim jawaban');
     }
 }

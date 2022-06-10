@@ -8,7 +8,7 @@
 </head>
 <body>
     @auth
-        Selamat datang {{ auth()->user()->username }}
+        Selamat datang {{ auth()->user()->name }}
     @endauth
 
     @guest
@@ -23,8 +23,10 @@
     @endif
     {{-- INI FORM POPUP KETIKA TOMBOL MASUKAN TOKEN DI CLICK --}}
     <form action="{{ route('inputToken') }}" method="post">
+        @csrf
         <input type="text" name="token">
         <button type="submit">Mulai tes</button>
     </form>
+    <a href="{{ route('test') }}">Mulai tes</a>
 </body>
 </html>

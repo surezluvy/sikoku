@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nama_paket');
             $table->json('soal');
             $table->bigInteger('harga')->nullable();
-            $table->bigInteger('waktu_pengerjaan');
+            $table->time('waktu_pengerjaan');
             $table->timestamps();
             $table->foreign('user_add')->references('user_id')->on('users')->onDelete('cascade');
         });

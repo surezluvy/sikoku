@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class isAdmin
 {
@@ -17,10 +17,10 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role == 'admin' || Auth::user()->role == 'psikolog')  {
+        if (Auth::user()->role === 'admin' || Auth::user()->role === 'psikolog')  {
             return $next($request);
-        } else {
-            return back()->with('error', 'Cannot access to restricted page');
         }
+
+        return back()->with('error', 'Cannot access to restricted page');
     }
 }

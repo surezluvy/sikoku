@@ -7,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    @if(session('error'))
+        {{ session('error') }}
+    @endif
+    @if(session('success'))
+        {{ session('success') }}
+    @endif
+
     <form action="{{ route('masuk') }}" method="post">
         @csrf
         <input type="email" name="email">
