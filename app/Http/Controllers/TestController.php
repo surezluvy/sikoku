@@ -60,7 +60,7 @@ class TestController extends Controller
     }
 
     function detail(Request $request){
-        // dd($request->session()->get('siswa'));
+//         dd($request->session()->get('siswa'));
         $siswa = $request->session()->get('siswa');
         $guru = User::select("name")->where('user_id', $siswa[0]['user_id'])->first();
         $paketSoal = PaketSoal::select("user_add", "nama_paket", "waktu_pengerjaan")->where('paket_soal_id', $siswa[0]['paket_soal_id'])->first();
@@ -105,16 +105,30 @@ class TestController extends Controller
         $waktu_awal = strtotime(now("Asia/Jakarta")->toTimeString()); // 11.30
 
         $paketSoal2 = $paketSoal->waktu_pengerjaan;
-        $paketSoal2 .= ":00";
         $waktu_akhir = strtotime($paketSoal2); // 02:30:00
 
-        $countdown = date('h:i:s', $waktu_awal+$waktu_akhir);
-        session([
-            'waktu_test' => [
-                'waktu_mulai_siswa' => $waktu_awal_str,
-                'waktu_selesai' => $countdown
-            ]
-        ]);
+        $countdown = $waktu_awal+$waktu_akhir;
+//        $countdown = $waktu_awal+$waktu_akhir;
+
+//        $request->session()->forget('waktu_test');
+//        $request->session()->forget('waktu_pengerjaan');
+        if(session()->get('waktu_test') === null){
+            session([
+                'waktu_test' => [
+                    'waktu_mulai_siswa' => $waktu_awal,
+                    'waktu_akhir' => $countdown,
+                ]
+            ]);
+        }
+
+        if(session()->get('waktu_test') !== null){
+            session([
+                'waktu_pengerjaan' => date('h:i:s', session()->get('waktu_test')['waktu_akhir']-$waktu_awal),
+            ]);
+        }
+        // TODO: Ketika waktu pengerjaan habis, maka tidak bisa mengerjakan
+//        dd(session()->get('waktu_test'));
+//        dd(date('h:i:s', $waktu_akhir));
         // dd($random_soal);
 
         // LOGIKA COUNTDOWN NYA YAITU, WAKTU SAAT USER CLICK MULAI TES, DITAMBAHKAN WAKTU PENGERJAAN
@@ -143,19 +157,20 @@ class TestController extends Controller
             }
         }
         session(['point' => $poin]);
-
         return view('home.test.mulai', compact('random_soal', 'id'));
     }
 
-    function selesaiTest(Request $request){
+    function kirimJawabanTest(Request $request){
         $jawaban = $request->session()->get('jawaban_siswa');
-        $poin = $request->session()->get('poin');
-//        JawabanSiswa::create([
-//            "batch_id" => $request->session()->get('id'),
-//            "paket_soal_id" => 1,
-//            "jawaban" => $jawaban,
-//            "result" => $poin,
-//        ]);
+        $poin = $request->session()->get('point');
+        JawabanSiswa::create([
+            "batch_id" => $request->session()->get('id'),
+            "paket_soal_id" => 1,
+            "jawaban" => $jawaban,
+            "result" => $poin,
+        ]);
+        $request->session()->forget('jawaban_siswa');
+        return redirect()->route('index');
     }
 
     function hapus_session_jawaban_siswa(Request $request){

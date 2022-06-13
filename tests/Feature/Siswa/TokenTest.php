@@ -33,8 +33,9 @@ class TokenTest extends TestCase
         Transaksi::factory(3)->create();
         BatchUjian::factory(3)->create();
 
-        $this->visit('/test');
-        $this->submitForm('Mulai test', [
+        $this->visit('/');
+        $this->click('Mulai Tes');
+        $this->submitForm('Selanjutnya', [
             // TODO: Token masih ngawur jadi kemungkinan besar salah
             'token' => '1',
         ]);
@@ -45,17 +46,18 @@ class TokenTest extends TestCase
     public function siswa_dapat_memulai_tes(){
         $this->siswa_dapat_memasuki_website_dan_memasukan_token();
 
-        $this->click('Lanjut');
+        $this->click('Mulai Tes');
         $this->seePageIs('test/detail');
         $this->click('Mulai test');
 
         // TODO: Disini harusnya keluar instruksi, tapi di skip karena erd belum dibuat
         $soal = session('soal');
         $id = session('id')-1;
+
         // Siswa mengisi semua soal
         for($i = 0, $iMax = count($soal); $i < $iMax; $i++) {
             if($id < count($soal)-1) {
-                $this->submitForm('Lanjut',[
+                $this->submitForm('Pertanyaan Selanjutnya',[
                     'pilihan' => $soal[$id]['jawaban'][0]['pilihan'],
                 ]);
                 $id++;
@@ -65,8 +67,10 @@ class TokenTest extends TestCase
                 ]);
             }
         }
+
+        // BUG: Tidak bisa mengirim jawaban no such table: main.batch
         // Siswa melihat tulisan Test Telah selesai
-        $this->seeText('TEST TELAH SELESAI');
+        $this->seeText('Silahkan kirim jawaban anda sebelum keluar, sebelum mengakhiri sesi tes ini, Terima kasih');
         $this->click('Kirim jawaban');
     }
 }

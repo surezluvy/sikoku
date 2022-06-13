@@ -40,7 +40,7 @@ class AuthTest extends TestCase
     public function psikolog_dapat_memasuki_dashboard()
     {
         $this->visit('/');
-        $this->click('Masuk');
+        $this->click('Masuk sebagai guru');
         $this->click('Daftar');
 
         $this->submitForm('daftar', [

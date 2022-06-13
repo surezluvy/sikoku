@@ -42,7 +42,7 @@ Route::prefix('/')->group(function () {
                 // Route::get('/mulai', 'mulaiTest')->name('test-mulai');
                 Route::get('/mulai/{id}', 'mulaiTest')->name('test-mulai');
                 Route::post('/mulai/{id}', 'mulaiTest')->name('test-mulai');
-                Route::get('/selesai', 'selesaiTest')->name('test-selesai');
+                Route::get('/kirimJawaban', 'kirimJawabanTest')->name('test-kirimJawaban');
 
                 // Hapus session
                 Route::get('/mulai', 'hapus_session_jawaban_siswa')->name('test-hapusSessionJawabanSiswa');
@@ -121,6 +121,7 @@ Route::prefix('/')->group(function () {
                             Route::post('/ubah/{id}', 'prosesUbahPaketSoal')->name('admin-prosesUbahPaketSoal');
 
                             Route::get('/hapus/{id}', 'hapusPaketSoal')->name('admin-hapusPaketSoal');
+                            Route::get('/tes-hapus/{id}', 'tesHapusPaketSoal')->name('admin-tesHapusPaketSoal');
                         });
                     });
                 });

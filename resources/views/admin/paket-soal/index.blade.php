@@ -27,6 +27,7 @@
                 <td>
                     <a href="{{ route('admin-ubahPaketSoal', $paket->paket_soal_id) }}" id="ubah_paket_soal_{{ $paket->paket_soal_id }}">Ubah paket ini</a>
                     <a href="{{ route('admin-hapusPaketSoal', $paket->paket_soal_id) }}" id="hapus_paket_soal_{{ $paket->paket_soal_id }}">Hapus paket ini</a>
+                    <a href="{{ route('admin-tesHapusPaketSoal', $paket->paket_soal_id) }}" id="tes_hapus_paket_soal_{{ $paket->paket_soal_id }}">Tes hapus paket ini</a>
                 </td>
             </tr>
             @endforeach

@@ -92,4 +92,10 @@ class PaketSoalController extends Controller
         PaketSoal::find($id)->delete();
         return redirect()->route('admin-paketSoal');
     }
+    function tesHapusPaketSoal($id){
+        // dd('hapus id '.$id);
+        // dd(PaketSoal::find($id)->first());
+        PaketSoal::find($id)->delete();
+        dd('hapus id '.$id);
+    }
 }

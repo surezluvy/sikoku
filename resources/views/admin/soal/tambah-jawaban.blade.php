@@ -12,9 +12,16 @@
     <form action="{{ route('admin-prosesTambahJawaban') }}" method="post">
         @csrf
         <input type="text" name="soal_id" value="{{ $last_id }}">
-        <input type="text" name="tipe_soal" value="{{ $tipe_soal }}">
-        <input type="text" name="pilihan">
-        <input type="number" name="value_pilihan">
+
+        <div>
+            {{--TODO: Name harusnya pake array karena memasukan lebih dari 1 soal--}}
+            <input type="text" name="tipe_soal" value="{{ $tipe_soal }}">
+            <input type="text" name="pilihan">
+            <input type="number" name="value_pilihan">
+        </div>
+
+        <button>Tambah kolom jawaban</button>
+
         <button type="submit" value="Selesai">Selesai</button>
     </form>
 </body>

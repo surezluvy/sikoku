@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paket_soals');
+        Schema::dropIfExists('paket_soal');
     }
 };
