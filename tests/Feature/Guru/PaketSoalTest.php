@@ -34,7 +34,7 @@ class PaketSoalTest extends TestCase
             'password' => bcrypt('passwordguru'),
         ]);
 
-        $this->submitForm('masuk', [
+        $this->submitForm('Masuk', [
             'email'    => 'guru@gmail.com',
             'password' => 'passwordguru',
         ]);

@@ -63,63 +63,63 @@
 </div>
 
 @if($id <= count(session('soal')))
-<!-- WAKTU -->
-<section class="waktu">
-    <div class="container">
-        <div class="row">
-            <div class="sisawaktu col-6 d-flex justify-content-center align-items-center flex-column mx-auto">
-                <h4>Sisa Waktu</h4>
-                <div class="waktu d-flex justify-content-center align-items-center">
-                    <img src="{{ asset('home/assets/Waktu.svg') }}" alt="waktu" title="waktu">
-                    <p class="countdown">{{ session('waktu_pengerjaan') }}</p>
+    <!-- WAKTU -->
+    <section class="waktu">
+        <div class="container">
+            <div class="row">
+                <div class="sisawaktu col-6 d-flex justify-content-center align-items-center flex-column mx-auto">
+                    <h4>Sisa Waktu</h4>
+                    <div class="waktu d-flex justify-content-center align-items-center">
+                        <img src="{{ asset('home/assets/Waktu.svg') }}" alt="waktu" title="waktu">
+                        <p class="countdown">{{ session('waktu_pengerjaan') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- END WAKTU -->
+    </section>
+    <!-- END WAKTU -->
 
 
-<!-- ========== Start Soal ========== -->
-<section class="soal">
-    <div class="container">
-        <form class="needs-validation" action="{{ route('test-mulai', $id+1) }}" method="post">
-            @csrf
-            <div class="text-soal row">
-                <div class="col-8 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
-                    <p class="text-center">{{ session('soal')[$id-1]['pertanyaan'] }}</p>
+    <!-- ========== Start Soal ========== -->
+    <section class="soal">
+        <div class="container">
+            <form class="needs-validation" action="{{ route('test-mulai', $id+1) }}" method="post">
+                @csrf
+                <div class="text-soal row">
+                    <div class="col-8 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
+                        <p class="text-center">{{ session('soal')[$id-1]['pertanyaan'] }}</p>
+                    </div>
                 </div>
-            </div>
 
-            <input type="hidden" name="soal_pg_id" value="{{ session('soal')[$id-1]['soal_pg_id'] }}"><br>
-            <input type="hidden" name="pertanyaan" value="{{ session('soal')[$id-1]['pertanyaan'] }}"><br>
+                <input type="hidden" name="soal_pg_id" value="{{ session('soal')[$id-1]['soal_pg_id'] }}"><br>
+                <input type="hidden" name="pertanyaan" value="{{ session('soal')[$id-1]['pertanyaan'] }}"><br>
 
-            <div class="row">
-                <div class="col-8 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
-                    @foreach(session('soal')[$id-1]['jawaban'] as $jwb)
-                        <div class="form-check mb-3">
-                            <input name="pilihan" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="{{ $jwb['pilihan'] }}" required>
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                {{ $jwb['pilihan'] }}
-                            </label>
-                            <input type="hidden" name="value_pilihan" value="{{ $jwb['value_pilihan'] }}">
-                        </div>
-                    @endforeach
+                <div class="row">
+                    <div class="col-8 col-sm-10 col-md-10 col-lg-8 col-xl-6 mx-auto">
+                        @foreach(session('soal')[$id-1]['jawaban'] as $jwb)
+                            <div class="form-check mb-3">
+                                <input name="pilihan" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="{{ $jwb['pilihan'] }}" required>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    {{ $jwb['pilihan'] }}
+                                </label>
+                                <input type="hidden" name="value_pilihan" value="{{ $jwb['value_pilihan'] }}">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            @if($id == count(session('soal')))
-                <div class="col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mx-auto">
-                    <button type="submit" class="btn" name="submit" disabled>Selesai</button>
-                </div>
-            @else
-                <div class="col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mx-auto">
-                    <button type="submit" class="btn" name="submit" disabled>Pertanyaan Selanjutnya</button>
-                </div>
-            @endif
-        </form>
-    </div>
-</section>
-<!-- ========== End Soal ========== -->
+                @if($id == count(session('soal')))
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mx-auto">
+                        <button type="submit" class="btn" name="submit" disabled>Selesai</button>
+                    </div>
+                @else
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mx-auto">
+                        <button type="submit" class="btn" name="submit" disabled>Pertanyaan Selanjutnya</button>
+                    </div>
+                @endif
+            </form>
+        </div>
+    </section>
+    <!-- ========== End Soal ========== -->
 @else
     <section class="token">
         <div class="container">
@@ -182,16 +182,16 @@
         {{--    <h5>Poin anda adalah: {{ session('point') }}</h5>--}}
         @endif
 
-<!-- JS BOOTSTRAP -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
-<script cript src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- JS BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <script cript src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- JS -->
-<!-- <script src="./js/script1.js"></script> -->
-<script src="{{ asset('home/js/pilihan-ganda.js') }}"></script>
+    <!-- JS -->
+    <!-- <script src="./js/script1.js"></script> -->
+    <script src="{{ asset('home/js/pilihan-ganda.js') }}"></script>
 
 </body>
 </html>

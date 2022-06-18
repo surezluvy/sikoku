@@ -36,7 +36,7 @@ class BatchTest extends TestCase
             'password' => bcrypt('passwordguru'),
         ]);
 
-        $this->submitForm('masuk', [
+        $this->submitForm('Masuk', [
             'email'    => 'guru@gmail.com',
             'password' => 'passwordguru',
         ]);
@@ -107,10 +107,11 @@ class BatchTest extends TestCase
         $this->submitForm('Tambah', [
             'transaksi_id' => '1',
 
-            // SOLVED: tidak bisa menambahkan waktu pelaksanaan, tapi mungkin di browser bisa
             'waktu_pelaksanaan' => '11:30:00',
             'siswa' => $file
         ]);
+        dd($siswa_excel);
+
         $this->seeInDatabase('batch_ujian', [
             'transaksi_id' => 1,
             'waktu_pelaksanaan' => '11:30:00',

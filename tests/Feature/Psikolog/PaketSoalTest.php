@@ -30,17 +30,17 @@ class PaketSoalTest extends TestCase
             'role' => 'psikolog',
             'password' => bcrypt('passwordpsikolog'),
         ]);
-        $this->submitForm('masuk', [
+        $this->submitForm('Masuk', [
             'email'    => 'psikolog@gmail.com',
             'password' => 'passwordpsikolog',
         ]);
-        $this->seePageIs('/admin');
+        $this->seePageIs('/dashboard/s');
     }
 
     /** @test */
     public function psikolog_dapat_melihat_paket_soal_pada_dashboard(){
         $this->psikolog_login();
-        $this->visit('/admin');
+        $this->visit('/dashboard/s');
         $soalPilgan = SoalPilgan::factory(3)->create();
         $keyPilgan = KeyPilgan::factory(3)->create();
         $soal2d = Soal2d::factory(3)->create();
@@ -60,7 +60,7 @@ class PaketSoalTest extends TestCase
         $key2d = Key2d::factory(3)->create();
 
         $this->click('Tambah paket soal');
-        $this->seePageIs('/admin/paket-soal/tambah');
+        $this->seePageIs('/dashboard/s/paket-soal/tambah');
 
         $this->submitForm('Tambah paket soal', [
             'nama_paket'    => 'Paket 1',
@@ -75,7 +75,7 @@ class PaketSoalTest extends TestCase
             'nama_paket'    => 'Paket 1',
         ]);
 
-        $this->seePageIs('/admin/paket-soal');
+        $this->seePageIs('/dashboard/s/paket-soal');
     }
 
     /** @test */
@@ -100,7 +100,7 @@ class PaketSoalTest extends TestCase
             'nama_paket' => 'Paket telah di ubah'
         ]);
 
-        $this->seePageIs('/admin/paket-soal');
+        $this->seePageIs('/dashboard/s/paket-soal');
     }
 
     /** @test */

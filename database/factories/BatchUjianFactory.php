@@ -19,7 +19,7 @@ class BatchUjianFactory extends Factory
     {
         return [
             'transaksi_id' => 1,
-            'waktu_pelaksanaan' => '2022-06-06 11:30:00',
+            'waktu_pelaksanaan' => '2022-06-14 11:30:00',
             'siswa' => [
                 [
                 "nama_siswa" => $this->faker->name(),

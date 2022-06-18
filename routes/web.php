@@ -84,49 +84,53 @@ Route::prefix('/')->group(function () {
                     Route::post('/tambah', 'prosesTambahBatch')->name('dashboard-prosesTambahBatch');
                 });
 
-            });
-        });
-        Route::middleware(['isAdmin'])->group(function () {
-            Route::controller(AdminController::class)->group(function () {
-                Route::prefix('/admin')->group(function () {
-                    Route::get('/', 'index')->name('admin');
+                Route::middleware(['isAdmin'])->group(function () {
+                    Route::controller(AdminController::class)->group(function () {
+                        Route::prefix('/s')->group(function () {
+                            Route::get('/', 'index')->name('admin');
 
-                    Route::controller(SoalController::class)->group(function () {
-                        Route::prefix('/soal')->group(function () {
-                            Route::get('/{tipe}', 'index')->name('admin-soal');
-                            Route::get('/tambah/{tipe}', 'tambahSoal')->name('admin-tambahSoal');
-                            Route::post('/tambah', 'prosesTambahSoal')->name('admin-prosesTambahSoal');
+                            Route::controller(SoalController::class)->group(function () {
+                                Route::prefix('/soal')->group(function () {
+                                    Route::get('/{tipe}', 'index')->name('admin-soal');
+                                    Route::get('/tambah/{tipe}', 'tambahSoal')->name('admin-tambahSoal');
+                                    Route::post('/tambah', 'prosesTambahSoal')->name('admin-prosesTambahSoal');
+                                    Route::post('/tambahSoalExcel', 'prosesTambahSoalExcel')->name('admin-prosesTambahSoalExcel');
 
-                            Route::get('/ubah/{id}/{tipe}', 'ubahSoal')->name('admin-ubahSoal');
-                            Route::post('/ubah', 'prosesUbahSoal')->name('admin-prosesUbahSoal');
+                                    Route::get('/ubah/{id}/{tipe}', 'ubahSoal')->name('admin-ubahSoal');
+                                    Route::post('/ubah', 'prosesUbahSoal')->name('admin-prosesUbahSoal');
 
-                            Route::get('/ubah-jawaban/{id}/{tipe}', 'ubahJawaban')->name('admin-ubahJawaban');
-                            Route::post('/ubah-jawaban', 'prosesUbahJawaban')->name('admin-prosesUbahJawaban');
+                                    Route::get('/ubah-jawaban/{id}/{tipe}', 'ubahJawaban')->name('admin-ubahJawaban');
+                                    Route::post('/ubah-jawaban', 'prosesUbahJawaban')->name('admin-prosesUbahJawaban');
 
-                            Route::get('/tambah-jawaban/{id}/{tipe}', 'tambahJawaban')->name('admin-tambahJawaban');
-                            Route::post('/tambah-jawaban', 'prosesTambahJawaban')->name('admin-prosesTambahJawaban');
+                                    Route::get('/tambah-jawaban/{id}/{tipe}', 'tambahJawaban')->name('admin-tambahJawaban');
+                                    Route::post('/tambah-jawaban', 'prosesTambahJawaban')->name('admin-prosesTambahJawaban');
 
-                            Route::get('/hapus/{id}/{tipe}', 'prosesHapusSoal')->name('admin-prosesHapusSoal');
-                        });
-                    });
+                                    Route::get('/hapus/{id}/{tipe}', 'prosesHapusSoal')->name('admin-prosesHapusSoal');
+                                });
+                            });
 
-                    Route::controller(PaketSoalController::class)->group(function () {
-                        Route::prefix('/paket-soal')->group(function () {
-                            Route::get('/', 'index')->name('admin-paketSoal');
+                            Route::controller(PaketSoalController::class)->group(function () {
+                                Route::prefix('/paket-soal')->group(function () {
+                                    Route::get('/', 'index')->name('admin-paketSoal');
+                                    Route::get('/detail/{id}', 'detail')->name('admin-detailPaketSoal');
 
-                            Route::get('/tambah', 'tambahPaketSoal')->name('admin-tambahPaketSoal');
-                            Route::post('/tambah', 'prosesTambahPaketSoal')->name('admin-prosesTambahPaketSoal');
+                                    Route::get('/tambah', 'tambahPaketSoal')->name('admin-tambahPaketSoal');
+                                    Route::post('/tambah', 'prosesTambahPaketSoal')->name('admin-prosesTambahPaketSoal');
 
-                            Route::get('/ubah/{id}', 'ubahPaketSoal')->name('admin-ubahPaketSoal');
-                            Route::post('/ubah/{id}', 'prosesUbahPaketSoal')->name('admin-prosesUbahPaketSoal');
+                                    Route::get('/ubah/{id}', 'ubahPaketSoal')->name('admin-ubahPaketSoal');
+                                    Route::post('/ubah/{id}', 'prosesUbahPaketSoal')->name('admin-prosesUbahPaketSoal');
 
-                            Route::get('/hapus/{id}', 'hapusPaketSoal')->name('admin-hapusPaketSoal');
-                            Route::get('/tes-hapus/{id}', 'tesHapusPaketSoal')->name('admin-tesHapusPaketSoal');
+                                    Route::get('/hapus/{id}', 'hapusPaketSoal')->name('admin-hapusPaketSoal');
+                                    Route::get('/tes-hapus/{id}', 'tesHapusPaketSoal')->name('admin-tesHapusPaketSoal');
+                                });
+                            });
                         });
                     });
                 });
+
             });
         });
+
         Route::controller(AuthController::class)->group(function () {
             Route::get('/logout', 'logout')->name('admin-logout');
         });

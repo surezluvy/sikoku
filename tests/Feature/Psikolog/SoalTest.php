@@ -29,11 +29,11 @@ class SoalTest extends TestCase
             'role' => 'psikolog',
             'password' => bcrypt('passwordpsikolog'),
         ]);
-        $this->submitForm('masuk', [
+        $this->submitForm('Masuk', [
             'email'    => 'psikolog@gmail.com',
             'password' => 'passwordpsikolog',
         ]);
-        $this->seePageIs('/admin');
+        $this->seePageIs('/dashboard/s');
     }
 
     /** @test */
@@ -52,7 +52,7 @@ class SoalTest extends TestCase
             'value_pilihan' => 50,
         ]);
         // SEBAGAI CONTOH MENAMBAHKAN SOAL PILGAN
-        $this->seePageIs('/admin/soal/pilgan');
+        $this->seePageIs('/dashboard/s/soal/pilgan');
         // Melihat apakah data yang di inputkan masuk ke dalam database dan ke dalam view
         $this->seeText('Apa itu hewan?');
     }
@@ -85,11 +85,11 @@ class SoalTest extends TestCase
         }
 
         $this->click('ubah_soal_1');
-        $this->seePageIs('/admin/soal/ubah/1/pilgan');
+        $this->seePageIs('/dashboard/s/soal/ubah/1/pilgan');
         $this->submitForm('lanjut', [
             'pertanyaan'    => 'Apa itu kawan?'
         ]);
-        $this->seePageIs('/admin/soal/ubah-jawaban/1/pilgan');
+        $this->seePageIs('/dashboard/s/soal/ubah-jawaban/1/pilgan');
         $this->submitForm('Selesai', [
             'pilihan[1]'    => 'pilihan 1',
             'pilihan[2]'    => 'pilihan 2',
@@ -104,7 +104,7 @@ class SoalTest extends TestCase
             'key_pilgan_id' => 1,
             'pilihan'    => 'pilihan 1',
         ]);
-        $this->seePageIs('/admin/soal/pilgan');
+        $this->seePageIs('/dashboard/s/soal/pilgan');
     }
 
     /** @test */
@@ -148,7 +148,7 @@ class SoalTest extends TestCase
             ]);
         }
 
-        $this->seePageIs('/admin/soal/pilgan');
+        $this->seePageIs('/dashboard/s/soal/pilgan');
 
         // Psikolog tidak melihat kumpulan soal yang telah terhapus
         $this->dontSeeText($kumpulan_soal[0]->pertanyaan);

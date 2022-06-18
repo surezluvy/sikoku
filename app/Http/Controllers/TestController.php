@@ -9,6 +9,7 @@ use App\Models\PaketSoal;
 use App\Models\Transaksi;
 use App\Models\BatchUjian;
 use App\Models\JawabanSiswa;
+use Carbon\Carbon;
 
 class TestController extends Controller
 {
@@ -16,22 +17,32 @@ class TestController extends Controller
         return view('home.test.index');
     }
     function inputToken(Request $request){
-        // SOLVED: Token masih bisa digunakan sebelum waktu pelaksanaan
-
         $batch = BatchUjian::with('transaksi')->get();
         $siswa = array();
 
-        // BUG: Disini waktu masih menggunakan asia jakarta
-        // Jika ingin tes mengubah waktu batchujianfactory
-        $now = strtotime(now('Asia/Jakarta')->toDateTimeString());
-
         foreach($batch as $b){
             foreach($b->siswa as $s){
-                if($s['token'] == $request->token){
-                    $waktu_pelaksanaan = strtotime($b->waktu_pelaksanaan);
+                if($s['token'] == $request->token) {
 
-                    if($now >= $waktu_pelaksanaan){
+                    // 2022-06-13 11:30:00
+//                    $waktu_pelaksanaan = strtotime($b->waktu_pelaksanaan);
 
+                    $paketSoal = PaketSoal::where('paket_soal_id', $b->transaksi['paket_soal_id'])->first();
+                    // 02:30:00
+
+                    $waktu_pengerjaan = $paketSoal->waktu_pengerjaan;
+                    $waktu_pengerjaan_exp = explode(":", $waktu_pengerjaan);
+                    $jam = $waktu_pengerjaan_exp[0] * 60;
+                    $jam2 = $jam+$waktu_pengerjaan_exp[1];
+
+                    $waktu_pelaksanaan = Carbon::parse($b->waktu_pelaksanaan)->toDateTimeString();
+                    $maks_waktu_pengerjaan = Carbon::parse($b->waktu_pelaksanaan)->addMinutes($jam2)->toDateTimeString();
+
+                    // BUG: Disini waktu masih menggunakan asia jakarta
+                    $now = Carbon::parse(now('Asia/Jakarta'))->toDateTimeString();
+//                    dd($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan);
+
+                    if ($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan) {
                         array_push($siswa, [
                             "paket_soal_id" => $b->transaksi['paket_soal_id'],
                             "batch_id" => $b->batch_id,
@@ -43,10 +54,11 @@ class TestController extends Controller
 
                         session(['siswa' => $siswa]);
                         return redirect()->route('test-validasi')->with(['success' => 'Token berhasil dimasukkan']);
+                    }else if($now >= $maks_waktu_pengerjaan){
+                        return redirect()->route('test')->with(['error' => 'Token sudah kadaluarsa']);
                     }else{
                         return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
                     }
-
                 }else{
                     return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
                 }
@@ -87,9 +99,6 @@ class TestController extends Controller
             }
         }
 
-        // SOLVED: Agar soal tidak terandom terus ketika siswa klik lanjut, maka soal dimasukan ke session
-        // Jadi setelah siswa selesai mengerjakan soal, session soal akan dihapus
-        // $request->session()->forget('soal');
         $soal_session = $request->session()->get('soal');
         if(!isset($soal_session)){
             session(['soal' => $random_soal]);
@@ -160,6 +169,15 @@ class TestController extends Controller
         return view('home.test.mulai', compact('random_soal', 'id'));
     }
 
+    function selesai(Request $request){
+        JawabanSiswa::create([
+            "batch_id" => $request->session()->get('id'),
+            "paket_soal_id" => 1,
+            "jawaban" => ['awdsw'],
+            "result" => 412,
+        ]);
+    }
+
     function kirimJawabanTest(Request $request){
         $jawaban = $request->session()->get('jawaban_siswa');
         $poin = $request->session()->get('point');
@@ -170,7 +188,6 @@ class TestController extends Controller
             "result" => $poin,
         ]);
         $request->session()->forget('jawaban_siswa');
-        return redirect()->route('index');
     }
 
     function hapus_session_jawaban_siswa(Request $request){

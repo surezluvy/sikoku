@@ -46,14 +46,17 @@ class AuthController extends Controller
         $validateData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email:dns|unique:users',
-            'role' => 'required',
             'password' => 'required|min:8'
         ]);
 
+        $validateData['role'] = 'guru';
         $validateData['password'] = bcrypt($validateData['password']);
-        User::create($validateData);
 
-        return redirect('masuk')->with('success', 'Berhasil mendaftar! Silahkan masuk');
+        $daftar = User::create($validateData);
+        if($daftar){
+            return redirect('masuk')->with('success', 'Berhasil mendaftar! Silahkan masuk');
+        }
+
     }
 
     function logout(Request $request){
