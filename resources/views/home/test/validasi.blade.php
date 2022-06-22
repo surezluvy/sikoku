@@ -38,7 +38,7 @@
                         <p><span>Validasi Nama</span></p>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 d-flex align-items-center justify-content-end">
-                        <h4 class="me-xl-3 me-lg-3 me-md-3 me-sm-3 me-3">{{ session('siswa')[0]['nama_siswa'] }}</h4>
+                        <h4 class="me-xl-3 me-lg-3 me-md-3 me-sm-3 me-3">{{ ucfirst(session('siswa')[0]['nama_siswa']) }}</h4>
                         <div class="avatar d-flex justify-content-center align-items-center">
                             <i class="fa-solid fa-user"></i>
                         </div>
@@ -57,7 +57,7 @@
             <div class="container">
                 <p>VALIDASI NAMA</p>
                 <h5>Selamat Datang</h5>
-                <h1>{{ $data[0]['nama_siswa'] }}</h1>
+                <h1>{{ ucfirst($data[0]['nama_siswa']) }}</h1>
                 <div class="garis mx-auto"></div>
                 <h6>Pastikan nama diatas sudah sesuai dengan nama anda</h6>
                 <form action="intruksi-umum.html" method="get">

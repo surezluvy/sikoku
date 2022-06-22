@@ -46,9 +46,9 @@ class TestController extends Controller
                             "paket_soal_id" => $b->transaksi['paket_soal_id'],
                             "batch_id" => $b->batch_id,
                             "user_id" => $b->transaksi['user_id'],
-                            "nama_siswa" => $s['nama_siswa'],
-                            "token" => $s['token'],
-                            "tanggal_lahir" => $s['tanggal_lahir']
+                            "nama_siswa" => $siswa['nama_siswa'],
+                            "token" => $siswa['token'],
+                            "tanggal_lahir" => $siswa['tanggal_lahir']
                         ]);
 
                         session(['siswa' => $siswa]);
@@ -59,7 +59,7 @@ class TestController extends Controller
                         return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
                     }
                 }
-                return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
+                // return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
             }
         }
 
@@ -92,11 +92,19 @@ class TestController extends Controller
         shuffle($random_soal);
 
         for($i = 0, $iMax = count($random_soal); $i < $iMax; $i++){
-            for($n = 0, $nMax = count($random_soal[$i]['jawaban']); $n < $nMax; $n++){
-                shuffle($random_soal[$n]['jawaban']);
+            for($u = 0, $uMax = count($random_soal); $u < $uMax; $u++){
+                shuffle($random_soal[$i]['jawaban']);
             }
         }
+        // for($i = 0, $iMax = count($random_soal); $i < $iMax; $i++){
+        //     for($n = 0, $nMax = count($random_soal[$i]['jawaban']); $n < $nMax; $n++){
+        //         // dd($random_soal[0]['jawaban']);
+        //         // shuffle($random_soal[$n]['jawaban']);
+        //     }
+        // }
 
+        // $request->session()->forget('soal');
+        // dd(request()->session()->get('soal'));
         $soal_session = $request->session()->get('soal');
         if(!isset($soal_session)){
             session(['soal' => $random_soal]);

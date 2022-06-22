@@ -34,31 +34,38 @@ class PaketSoalController extends Controller
         $paketSoal = array();
         $keyPilganPilihan = array();
         $key2dPilihan = array();
-        foreach($request->soalPilgan as $soalPilgan){
-            $soalPilganPilihan = SoalPilgan::with('key')->where('soal_pg_id', $soalPilgan)->first();    
-            foreach($soalPilganPilihan->key as $key){
-                array_push($keyPilganPilihan, ["key_pilgan_id" => $key->key_pilgan_id, "pilihan" => "$key->pilihan", "value_pilihan" => $key->value_pilihan]);
+        
+        if(isset($request->soalPilgan)){
+            foreach($request->soalPilgan as $soalPilgan){
+                $soalPilganPilihan = SoalPilgan::with('key')->where('soal_pg_id', $soalPilgan)->first();
+                foreach($soalPilganPilihan->key as $key){
+                    array_push($keyPilganPilihan, ["key_pilgan_id" => $key->key_pilgan_id, "pilihan" => "$key->pilihan", "value_pilihan" => $key->value_pilihan]);
+                }
+                array_push($paketSoal,
+                    [
+                        "soal_pg_id" => $soalPilgan,
+                        "tipe_soal" => "pilgan",
+                        "pertanyaan" => "$soalPilganPilihan->pertanyaan",
+                        "jawaban" => $keyPilganPilihan
+                    ]);
+                $keyPilganPilihan = array();
             }
-            array_push($paketSoal,
-                [
-                    "soal_pg_id" => $soalPilgan,
-                    "tipe_soal" => "pilgan",
-                    "pertanyaan" => "$soalPilganPilihan->pertanyaan",
-                    "jawaban" => $keyPilganPilihan
-                ]);
         }
-        foreach($request->soal2d as $soal2d){
-            $soal2dPilihan = Soal2d::with('key')->where('soal_2d_id', $soal2d)->first();
-            foreach($soal2dPilihan->key as $key){
-                array_push($key2dPilihan, ["key_2d_id" => $key->key_2d_id, "pilihan" => "$key->pilihan", "value_pilihan" => $key->value_pilihan]);
+        if(isset($request->soal2d)){
+            foreach($request->soal2d as $soal2d){
+                $soal2dPilihan = Soal2d::with('key')->where('soal_2d_id', $soal2d)->first();
+                foreach($soal2dPilihan->key as $key){
+                    array_push($key2dPilihan, ["key_2d_id" => $key->key_2d_id, "pilihan" => "$key->pilihan", "value_pilihan" => $key->value_pilihan]);
+                }
+                array_push($paketSoal,
+                    [
+                        "soal_2d_id" => $soal2d,
+                        "tipe_soal" => "2d",
+                        "pertanyaan" => "$soal2dPilihan->pertanyaan",
+                        "jawaban" => $key2dPilihan
+                    ]);
+                $key2dPilihan = array();
             }
-            array_push($paketSoal,
-                [
-                    "soal_2d_id" => $soal2d,
-                    "tipe_soal" => "2d",
-                    "pertanyaan" => "$soal2dPilihan->pertanyaan",
-                    "jawaban" => $key2dPilihan
-                ]);
         }
         PaketSoal::create([
             'nama_paket' => $request->nama_paket,
@@ -97,6 +104,7 @@ class PaketSoalController extends Controller
                         "pertanyaan" => "$soalPilganPilihan->pertanyaan",
                         "jawaban" => $keyPilganPilihan
                     ]);
+                $keyPilganPilihan = array();
             }
         }
         if(isset($request->soal2d)){
@@ -112,6 +120,7 @@ class PaketSoalController extends Controller
                         "pertanyaan" => "$soal2dPilihan->pertanyaan",
                         "jawaban" => $key2dPilihan
                     ]);
+                $key2dPilihan = array();
             }
         }
 

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('key_2d', function (Blueprint $table) {
             $table->id('key_2d_id');
             $table->unsignedBigInteger('soal_2d_id');
-            $table->string('pilihan');
+            $table->string('pilihan')->unique();
             $table->integer('value_pilihan');
             $table->timestamps();
             $table->foreign('soal_2d_id')->references('soal_2d_id')->on('soal_2d')->onDelete('cascade');

@@ -1,0 +1,44 @@
+function inputToken(Request $request){
+        $batch = BatchUjian::with('transaksi')->get();
+        $siswa = array();
+
+        foreach($batch as $b){
+            foreach($b->siswa as $s){
+                if($s['token'] == $request->token) {
+                    $paketSoal = PaketSoal::where('paket_soal_id', $b->transaksi['paket_soal_id'])->first();
+
+                    $waktu_pengerjaan = $paketSoal->waktu_pengerjaan;
+                    $waktu_pengerjaan_exp = explode(":", $waktu_pengerjaan);
+                    $jam = $waktu_pengerjaan_exp[0] * 60;
+                    $jam2 = $jam+$waktu_pengerjaan_exp[1];
+
+                    $waktu_pelaksanaan = Carbon::parse($b->waktu_pelaksanaan)->toDateTimeString();
+                    $maks_waktu_pengerjaan = Carbon::parse($b->waktu_pelaksanaan)->addMinutes($jam2)->toDateTimeString();
+
+                    // BUG: Disini waktu masih menggunakan asia jakarta
+                    $now = Carbon::parse(now('Asia/Jakarta'))->toDateTimeString();
+//                    dd($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan);
+
+                    if ($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan) {
+                        array_push($siswa, [
+                            "paket_soal_id" => $b->transaksi['paket_soal_id'],
+                            "batch_id" => $b->batch_id,
+                            "user_id" => $b->transaksi['user_id'],
+                            "nama_siswa" => $s['nama_siswa'],
+                            "token" => $s['token'],
+                            "tanggal_lahir" => $s['tanggal_lahir']
+                        ]);
+
+                        session(['siswa' => $siswa]);
+                        return redirect()->route('test-validasi')->with(['success' => 'Token berhasil dimasukkan']);
+                    }else if($now >= $maks_waktu_pengerjaan){
+                        return redirect()->route('test')->with(['error' => 'Token sudah kadaluarsa']);
+                    }else{
+                        return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
+                    }
+                }else{
+                    return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
+                }
+            }
+        }
+    }

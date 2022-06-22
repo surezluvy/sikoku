@@ -22,7 +22,7 @@ class DashboardController extends Controller
     }
     function paketSoal()
     {
-        $paketSoal = PaketSoal::all();
+        $paketSoal = PaketSoal::orderBy('created_at', 'DESC')->get();
         return view('dashboard.paket-soal.index', compact('paketSoal'));
     }
     function paketSoalSaya($id)
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         }else{
             return view('dashboard.paket-soal.404');
         }
-        
+
     }
     function detailPaketSoal($id)
     {
