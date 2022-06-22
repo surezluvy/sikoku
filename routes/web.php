@@ -69,19 +69,24 @@ Route::prefix('/')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::prefix('/dashboard')->group(function () {
-                Route::get('/', 'index')->name('dashboard');
+                
+                Route::middleware(['isGuru'])->group(function () {
+                    Route::get('/', 'index')->name('dashboard');
 
-                Route::prefix('/paketsoal')->group(function () {
-                    Route::get('/', 'paketSoal')->name('dashboard-paketSoal');
-                    Route::get('/{id}', 'detailPaketSoal')->name('dashboard-detailPaket');
-                    Route::get('/{id}/bayar', 'bayarPaketSoal')->name('dashboard-bayarPaket');
-                    Route::post('/bayar', 'prosesBayarPaketSoal')->name('dashboard-prosesBayarPaket');
-                });
+                    Route::prefix('/paketsoal')->group(function () {
+                        Route::get('/', 'paketSoal')->name('dashboard-paketSoal');
+                        Route::get('/saya/{id}', 'paketSoalSaya')->name('dashboard-paketSoalSaya');
+                        Route::get('/{id}', 'detailPaketSoal')->name('dashboard-detailPaket');
+                        Route::get('/{id}/bayar', 'bayarPaketSoal')->name('dashboard-bayarPaket');
+                        Route::post('/bayar', 'prosesBayarPaketSoal')->name('dashboard-prosesBayarPaket');
+                    });
 
-                Route::prefix('/batch-ujian')->group(function () {
-                    Route::get('/', 'batch')->name('dashboard-batch');
-                    Route::get('/tambah', 'tambahBatch')->name('dashboard-tambahBatch');
-                    Route::post('/tambah', 'prosesTambahBatch')->name('dashboard-prosesTambahBatch');
+                    Route::prefix('/batch-ujian')->group(function () {
+                        Route::get('/', 'batch')->name('dashboard-batch');
+                        Route::get('/detail/{id}', 'detailBatch')->name('dashboard-detailBatch');
+                        Route::get('/tambah', 'tambahBatch')->name('dashboard-tambahBatch');
+                        Route::post('/tambah', 'prosesTambahBatch')->name('dashboard-prosesTambahBatch');
+                    });
                 });
 
                 Route::middleware(['isAdmin'])->group(function () {

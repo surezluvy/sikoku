@@ -22,17 +22,27 @@ class DashboardController extends Controller
     }
     function paketSoal()
     {
-        $paketsoal = PaketSoal::all();
-        return view('dashboard.paket-soal.index', compact('paketsoal'));
+        $paketSoal = PaketSoal::all();
+        return view('dashboard.paket-soal.index', compact('paketSoal'));
+    }
+    function paketSoalSaya($id)
+    {
+        $transaksi = Transaksi::with('paketSoal')->where('user_id', $id)->first();
+        if($transaksi != null){
+            return view('dashboard.paket-soal.saya', compact('transaksi'));
+        }else{
+            return view('dashboard.paket-soal.404');
+        }
+        
     }
     function detailPaketSoal($id)
     {
-        $paketsoal = PaketSoal::where('paket_soal_id', $id)->first();
-        return view('dashboard.paket-soal.detail', compact('paketsoal'));
+        $paketSoal = PaketSoal::where('paket_soal_id', $id)->first();
+        return view('dashboard.paket-soal.detail', compact('paketSoal'));
     }
     function bayarPaketSoal($id){
-        $paketsoal = PaketSoal::where('paket_soal_id', $id)->first();
-        return view('dashboard.paket-soal.bayar', compact('paketsoal', 'id'));
+        $paketSoal = PaketSoal::where('paket_soal_id', $id)->first();
+        return view('dashboard.paket-soal.bayar', compact('paketSoal', 'id'));
     }
     function prosesBayarPaketSoal(Request $request){
         Transaksi::create([
@@ -53,12 +63,27 @@ class DashboardController extends Controller
             return $query->where('user_id', Auth::user()->user_id);
         })->get();
 
-        return view('dashboard.batch-ujian.index', compact('batch'));
+        if(isset($batch[0])){
+            return view('dashboard.batch-ujian.index', compact('batch'));
+        }else{
+            return view('dashboard.batch-ujian.404');
+        }
+
+    }
+    function detailBatch($id){
+        $batch = BatchUjian::with('transaksi')->where('batch_id', $id)->first();
+        // dd($batch->siswa);
+
+        return view('dashboard.batch-ujian.detail', compact('batch'));
     }
     function tambahBatch(){
         $transaksi = Transaksi::with('paketSoal')->where('user_id', Auth::user()->user_id)->whereNotNull('tgl_bayar')->get();
-
-        return view('dashboard.batch-ujian.tambah', compact('transaksi'));
+        // dd($transaksi);
+        if(isset($transaksi[0])){
+            return view('dashboard.batch-ujian.tambah', compact('transaksi'));
+        }else{
+            return view('dashboard.paket-soal.404');
+        }
     }
     public function prosesTambahBatch(Request $request)
     {

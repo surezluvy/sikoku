@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -17,18 +18,16 @@ class TestController extends Controller
         return view('home.test.index');
     }
     function inputToken(Request $request){
-        $batch = BatchUjian::with('transaksi')->get();
+        $batch = BatchUjian::with('transaksi')->orderBy('created_at', 'DESC')->get();
         $siswa = array();
 
+        $i = 0;
+        $u = 0;
+
         foreach($batch as $b){
-            foreach($b->siswa as $s){
-                if($s['token'] == $request->token) {
-
-                    // 2022-06-13 11:30:00
-//                    $waktu_pelaksanaan = strtotime($b->waktu_pelaksanaan);
-
+            foreach($b->siswa as $siswa){
+                if($siswa['token'] == $request->token){
                     $paketSoal = PaketSoal::where('paket_soal_id', $b->transaksi['paket_soal_id'])->first();
-                    // 02:30:00
 
                     $waktu_pengerjaan = $paketSoal->waktu_pengerjaan;
                     $waktu_pengerjaan_exp = explode(":", $waktu_pengerjaan);
@@ -59,11 +58,11 @@ class TestController extends Controller
                     }else{
                         return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
                     }
-                }else{
-                    return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
                 }
+                return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
             }
         }
+
     }
 
     function validasiSiswa(Request $request){
@@ -83,7 +82,6 @@ class TestController extends Controller
     }
 
     function mulaiTest(Request $request, $id){
-        session(['id' => $id]);
         $data = $request->session()->get('siswa');
         $batch = BatchUjian::select("waktu_pelaksanaan")->where('batch_id', $data[0]['batch_id'])->first();
         $paketSoal = PaketSoal::where('paket_soal_id', $data[0]['paket_soal_id'])->first();

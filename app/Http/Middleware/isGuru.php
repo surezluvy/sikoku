@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class isAdmin
+class isGuru
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role === 'admin' || Auth::user()->role === 'psikolog')  {
+        if (Auth::user()->role === 'guru')  {
             return $next($request);
         }
 
-        return redirect()->route('dashboard')->with('error', 'Cannot access to restricted page');
+        return redirect()->route('admin')->with('error', 'Cannot access to restricted page');
     }
 }

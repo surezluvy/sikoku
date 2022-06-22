@@ -75,6 +75,15 @@
 @if(Route::is('admin') || Route::is('dashboard'))
     <script src="{{ asset('admin/src/plugins/src/apex/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin/src/assets/js/dashboard/dash_1.js') }}"></script>
+@elseif(Route::is('dashboard-tambahBatch'))
+    <script src="{{ asset('admin/src/plugins/src/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('admin/plugins/src/flatpickr/custom-flatpickr.js') }}"></script>
+    <script>
+        var f2 = flatpickr(document.getElementById('dateTimeFlatpickr'), {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+    </script>
 @endif
 
 {{-- form wizard --}}

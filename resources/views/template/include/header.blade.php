@@ -51,6 +51,10 @@
     <link rel="stylesheet" type="text/css" href="{{  asset('admin/src/plugins/css/dark/stepper/custom-bsStepper.css') }}">
     <link rel="stylesheet" type="text/css" href="{{  asset('admin/src/plugins/css/light/stepper/custom-bsStepper.css') }}">
 
+    {{-- Invoice --}}
+    <link href="{{  asset('admin/src/assets/css/light/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{  asset('admin/src/assets/css/dark/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="{{ asset('admin/src/assets/css/dark/components/font-icons.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('admin/src/plugins/src/font-icons/fontawesome/css/regular.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/src/plugins/src/font-icons/fontawesome/css/fontawesome.css') }}">

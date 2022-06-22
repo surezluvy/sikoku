@@ -64,7 +64,7 @@
                 <!-- <div class="seperator-header"> -->
 
                     <!-- Hapus Soal -->
-                    @foreach($paketSoal as $paket)
+                    @foreach($transaksi->paketSoal as $paket)
                     <div class="modal fade" id="deleteConformation{{ $paket->paket_soal_id }}" tabindex="-1" role="dialog"
                         aria-labelledby="deleteConformationLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -122,7 +122,6 @@
                                             <th>User Add</th>
                                             <th>Harga</th>
                                             <th>Lama Waktu Pengerjaan</th>
-                                            <th>Punya saya</th>
                                             <th class="text-center dt-no-sorting">Action</th>
                                         </tr>
                                     </thead>
@@ -130,7 +129,7 @@
                                         @php
                                             $no = 1;
                                         @endphp
-                                        @foreach($paketSoal as $paket)
+                                        @foreach($transaksi->paketSoal as $paket)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $paket->nama_paket }}</td>
@@ -149,13 +148,6 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $paket->waktu_pengerjaan }}</td>
-                                                <td>
-                                                    @if (\App\Models\Transaksi::where('user_id', auth()->user()->user_id)->where('paket_soal_id', $paket->paket_soal_id)->first())
-                                                        <span class="badge badge-success mb-2 me-4">Owned</span>
-                                                    @else
-                                                        <span class="badge badge-danger mb-2 me-4">Not Owned</span>
-                                                    @endif
-                                                </td>
                                                 <td class="text-center">
                                                     <div class="dropdown">
                                                         <a class="dropdown-toggle" href="#" role="button"
@@ -173,11 +165,10 @@
                                                         </a>
                                                         <div class="dropdown-menu"
                                                             aria-labelledby="dropdownMenuLink1">
-                                                            @if (\App\Models\Transaksi::where('user_id', auth()->user()->user_id)->where('paket_soal_id', $paket->paket_soal_id)->first())
-                                                                <a href="{{ route('dashboard-batch') }}" class="dropdown-item">Tambah batch</a>
-                                                            @else
-                                                                <a class="dropdown-item" href="{{ route('dashboard-detailPaket', $paket->paket_soal_id) }}">Detail</a>
-                                                            @endif
+                                                            <a class="dropdown-item" href="{{ route('admin-detailPaketSoal', $paket->paket_soal_id) }}">Detail</a>
+                                                            <a class="dropdown-item" href="{{ route('admin-ubahPaketSoal', $paket->paket_soal_id) }}">Edit</a>
+                                                            <a class="dropdown-item" href="" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteConformation{{ $paket->paket_soal_id }}">Hapus</a>
                                                         </div>
                                                     </div>
                                                 </td>

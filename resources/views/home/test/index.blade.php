@@ -45,11 +45,11 @@
                             <img src="{{ asset('home/assets/Vector.svg') }}" alt="vektor" title="vektor">
                             <img src="{{ asset('home/assets/SIKOKU.svg') }}" alt="sikoku" title="sikoku">
                         </a>
-                        <a class="nav-link mx-auto" aria-current="page" href="#tentang">Tentang</a>
-                        <a class="nav-link mx-auto" href="#fitur">Fitur-fitur</a>
-                        <a class="nav-link mx-auto" href="#paket">Paket</a>
-                        <a class="nav-link mx-auto" href="#testimoni">Testimonial</a>
-                        <a class="nav-link link mx-auto ms-xl-4" href="#">Masuk sebagai guru</a>
+                        <a class="nav-link mx-auto" aria-current="page" href="{{ route('index') }}#tentang">Tentang</a>
+                        <a class="nav-link mx-auto" href="{{ route('index') }}#fitur">Fitur-fitur</a>
+                        <a class="nav-link mx-auto" href="{{ route('index') }}#paket">Paket</a>
+                        <a class="nav-link mx-auto" href="{{ route('index') }}#testimoni">Testimonial</a>
+                        <a class="nav-link link mx-auto ms-xl-4" href="{{ route('masuk') }}">Masuk sebagai guru</a>
                         <!-- <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-6 d-xl-flex justify-content-xl-end mx-auto
                                 align-items-xl-center d-flex justify-content-center align-items-center
                                 mt-xl-0 mt-2 ms-xl-5 d-lg-none d-md-none d-sm-none d-block">
