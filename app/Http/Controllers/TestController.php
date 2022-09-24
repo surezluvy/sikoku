@@ -15,6 +15,13 @@ use Carbon\Carbon;
 class TestController extends Controller
 {
     function index(){
+        request()->session()->forget('siswa');
+        request()->session()->forget('soal');
+        request()->session()->forget('waktu_test');
+        request()->session()->forget('waktu_pengerjaan');
+        request()->session()->forget('point');
+        request()->session()->forget('jawaban_siswa');
+        // dd(request()->session()->forget('siswa'));
         return view('home.test.index');
     }
     function inputToken(Request $request){
@@ -23,43 +30,48 @@ class TestController extends Controller
 
         $i = 0;
         $u = 0;
-
+        
         foreach($batch as $b){
             foreach($b->siswa as $siswa){
                 if($siswa['token'] == $request->token){
-                    $paketSoal = PaketSoal::where('paket_soal_id', $b->transaksi['paket_soal_id'])->first();
-
-                    $waktu_pengerjaan = $paketSoal->waktu_pengerjaan;
-                    $waktu_pengerjaan_exp = explode(":", $waktu_pengerjaan);
-                    $jam = $waktu_pengerjaan_exp[0] * 60;
-                    $jam2 = $jam+$waktu_pengerjaan_exp[1];
-
-                    $waktu_pelaksanaan = Carbon::parse($b->waktu_pelaksanaan)->toDateTimeString();
-                    $maks_waktu_pengerjaan = Carbon::parse($b->waktu_pelaksanaan)->addMinutes($jam2)->toDateTimeString();
-
-                    // BUG: Disini waktu masih menggunakan asia jakarta
-                    $now = Carbon::parse(now('Asia/Jakarta'))->toDateTimeString();
-//                    dd($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan);
-
-                    if ($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan) {
-                        array_push($siswa, [
-                            "paket_soal_id" => $b->transaksi['paket_soal_id'],
-                            "batch_id" => $b->batch_id,
-                            "user_id" => $b->transaksi['user_id'],
-                            "nama_siswa" => $siswa['nama_siswa'],
-                            "token" => $siswa['token'],
-                            "tanggal_lahir" => $siswa['tanggal_lahir']
-                        ]);
-
-                        session(['siswa' => $siswa]);
-                        return redirect()->route('test-validasi')->with(['success' => 'Token berhasil dimasukkan']);
-                    }else if($now >= $maks_waktu_pengerjaan){
-                        return redirect()->route('test')->with(['error' => 'Token sudah kadaluarsa']);
+                    if(array_key_exists('status', $siswa) && $siswa['status'] == 'selesai'){
+                        return redirect()->route('test')->with(['error' => 'Anda sudah mengikuti tes']);
                     }else{
-                        return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
+                        $paketSoal = PaketSoal::where('paket_soal_id', $b->transaksi['paket_soal_id'])->first();
+
+                        $waktu_pengerjaan = $paketSoal->waktu_pengerjaan;
+                        $waktu_pengerjaan_exp = explode(":", $waktu_pengerjaan);
+                        $jam = $waktu_pengerjaan_exp[0] * 60;
+                        $jam2 = $jam+$waktu_pengerjaan_exp[1];
+    
+                        $waktu_pelaksanaan = Carbon::parse($b->waktu_pelaksanaan)->toDateTimeString();
+                        $maks_waktu_pengerjaan = Carbon::parse($b->waktu_pelaksanaan)->addMinutes($jam2)->toDateTimeString();
+    
+                        // BUG: Disini waktu masih menggunakan asia jakarta
+                        $now = Carbon::parse(now('Asia/Jakarta'))->toDateTimeString();
+    //                    dd($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan);
+    
+                        if ($now >= $waktu_pelaksanaan && $now <= $maks_waktu_pengerjaan) {
+                            array_push($siswa, [
+                                "paket_soal_id" => $b->transaksi['paket_soal_id'],
+                                "batch_id" => $b->batch_id,
+                                "user_id" => $b->transaksi['user_id'],
+                                "nama_siswa" => $siswa['nama_siswa'],
+                                "token" => $siswa['token'],
+                                "tanggal_lahir" => $siswa['tanggal_lahir']
+                            ]);
+    
+                            session(['siswa' => $siswa]);
+                            return redirect()->route('test-validasi')->with(['success' => 'Token berhasil dimasukkan']);
+                        }else if($now >= $maks_waktu_pengerjaan){
+                            return redirect()->route('test')->with(['error' => 'Token sudah kadaluarsa']);
+                        }else{
+                            return redirect()->route('test')->with(['error' => 'Token dapat digunakan pada '.$b->waktu_pelaksanaan]);
+                        }
                     }
+                    
                 }
-                // return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
+                return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
             }
         }
 
@@ -82,10 +94,13 @@ class TestController extends Controller
     }
 
     function mulaiTest(Request $request, $id){
+        // dd($request->session()); 
         $data = $request->session()->get('siswa');
-        $batch = BatchUjian::select("waktu_pelaksanaan")->where('batch_id', $data[0]['batch_id'])->first();
+        $batch = BatchUjian::where('batch_id', $data[0]['batch_id'])->first();
         $paketSoal = PaketSoal::where('paket_soal_id', $data[0]['paket_soal_id'])->first();
 
+        session(['batch_id' => $batch->batch_id]);
+        session(['paket_soal_id' => $paketSoal->paket_soal_id]);
         // START RANDOMIZE SOAL
         $random_soal = $paketSoal->soal;
         // $soal_awal = array($random_soal);
@@ -175,25 +190,48 @@ class TestController extends Controller
         return view('home.test.mulai', compact('random_soal', 'id'));
     }
 
-    function selesai(Request $request){
-        JawabanSiswa::create([
-            "batch_id" => $request->session()->get('id'),
-            "paket_soal_id" => 1,
-            "jawaban" => ['awdsw'],
-            "result" => 412,
-        ]);
-    }
+    // function selesai(Request $request){
+    //     JawabanSiswa::create([
+    //         "batch_id" => $request->session()->get('id'),
+    //         "paket_soal_id" => 1,
+    //         "jawaban" => ['awdsw'],
+    //         "result" => 412,
+    //     ]);
+    // }
 
     function kirimJawabanTest(Request $request){
+        // dd($request->session());
         $jawaban = $request->session()->get('jawaban_siswa');
         $poin = $request->session()->get('point');
+        
+        $token = $request->session()->get('siswa')['token'];
+
         JawabanSiswa::create([
-            "batch_id" => $request->session()->get('id'),
+            "batch_id" => $request->session()->get('batch_id'),
             "paket_soal_id" => 1,
+            "token" => $token,
             "jawaban" => $jawaban,
             "result" => $poin,
         ]);
-        $request->session()->forget('jawaban_siswa');
+        
+        $batch = BatchUjian::where('batch_id', $request->session()->get('batch_id'))->first();
+        $siswa_update = $batch->siswa;
+
+        $index = array_search($token, array_column($siswa_update, 'token'));
+
+        $siswa_update[$index]['status'] = "selesai";
+        
+        $batch->update([
+            'siswa' => $siswa_update
+        ]);
+
+        request()->session()->forget('siswa');
+        request()->session()->forget('soal');
+        request()->session()->forget('waktu_test');
+        request()->session()->forget('waktu_pengerjaan');
+        request()->session()->forget('point');
+        request()->session()->forget('jawaban_siswa');
+        return redirect()->route('test');
     }
 
     function hapus_session_jawaban_siswa(Request $request){

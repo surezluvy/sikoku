@@ -91,7 +91,11 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="soal_pg_id" value="{{ session('soal')[$id-1]['soal_pg_id'] }}"><br>
+                @if(session('soal')[$id-1]['tipe_soal'] == 'pilgan')
+                    <input type="hidden" name="soal_pg_id" value="{{ session('soal')[$id-1]['soal_pg_id'] }}"><br>
+                @elseif(session('soal')[$id-1]['tipe_soal'] == '2d')
+                    <input type="hidden" name="soal_2d_id" value="{{ session('soal')[$id-1]['soal_2d_id'] }}"><br>
+                @endif
                 <input type="hidden" name="pertanyaan" value="{{ session('soal')[$id-1]['pertanyaan'] }}"><br>
 
                 <div class="row">
@@ -172,7 +176,7 @@
                 <div class="modal-footer">
                     <form action="">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Cek kembali</button>
+                                data-bs-dismiss="modal">Batal</button>
                         <a href="{{ route('test-kirimJawaban') }}" class="btn btn-primary yakin">Kirim jawaban</a>
                     </form>
                 </div>

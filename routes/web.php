@@ -86,6 +86,7 @@ Route::prefix('/')->group(function () {
                         Route::get('/detail/{id}', 'detailBatch')->name('dashboard-detailBatch');
                         Route::get('/tambah', 'tambahBatch')->name('dashboard-tambahBatch');
                         Route::post('/tambah', 'prosesTambahBatch')->name('dashboard-prosesTambahBatch');
+                        Route::get('/ubah-token/{id}/{token}', 'ubahTokenBatch')->name('dashboard-ubahTokenBatch');
                     });
                 });
 

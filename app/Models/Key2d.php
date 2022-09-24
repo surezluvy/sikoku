@@ -9,6 +9,6 @@ class Key2d extends Model
 {
     use HasFactory;
     protected $table = 'key_2d';
-    protected $guarded = ['soal_2d_id'];
-    protected $primaryKey = 'soal_2d_id';
+    protected $guarded = ['key_2d_id'];
+    protected $primaryKey = 'key_2d_id';
 }

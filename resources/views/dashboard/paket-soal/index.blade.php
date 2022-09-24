@@ -157,7 +157,13 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <div class="dropdown">
+                                                    
+                                                    @if (\App\Models\Transaksi::where('user_id', auth()->user()->user_id)->where('paket_soal_id', $paket->paket_soal_id)->first())
+                                                        <a href="{{ route('dashboard-batch') }}" class="dropdown-item">Tambah batch</a>
+                                                    @else
+                                                        <a class="dropdown-item" href="{{ route('dashboard-detailPaket', $paket->paket_soal_id) }}">Detail</a>
+                                                    @endif
+                                                    <!-- <div class="dropdown">
                                                         <a class="dropdown-toggle" href="#" role="button"
                                                             id="dropdownMenuLink1" data-bs-toggle="dropdown"
                                                             aria-haspopup="true" aria-expanded="true">
@@ -179,7 +185,7 @@
                                                                 <a class="dropdown-item" href="{{ route('dashboard-detailPaket', $paket->paket_soal_id) }}">Detail</a>
                                                             @endif
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -27,8 +27,10 @@
                                         <th>No</th>
                                         <th>Nama Siswa</th>
                                         <th>Token</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                </thead>
+                                </thead>    
                                 <tbody>
                                     @php
                                         $no = 1;
@@ -38,6 +40,22 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ ucfirst($siswa['nama_siswa']) }}</td>
                                             <td>{{ $siswa['token'] }}</td>
+                                            <td>
+                                                {{-- TODO: Menurutku disini membuat page load lambat --}}
+                                                @if (array_key_exists('status', $siswa) && $siswa['status'] == 'selesai')
+                                                    <span class="badge badge-success mb-2 me-4">Sudah tes</span>
+                                                @else
+                                                    <span class="badge badge-dark mb-2 me-4">Belum tes</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (array_key_exists('status', $siswa) && $siswa['status'] == 'selesai')
+                                                    <a href="{{ route('dashboard-ubahTokenBatch', [$batch->batch_id, $siswa['token']]) }}" class="disabled btn btn-primary">Ubah token</a>
+                                                @else
+                                                    <a href="{{ route('dashboard-ubahTokenBatch', [$batch->batch_id, $siswa['token']]) }}" class="btn btn-primary">Ubah token</a>
+                                                @endif
+                                                
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

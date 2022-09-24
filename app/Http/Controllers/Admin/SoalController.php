@@ -87,6 +87,7 @@ class SoalController extends Controller
                     'value_pilihan' => $soal_excel[0][$i]['poin']];
             }
         }
+
         if($request->tipe === 'pilgan'){
             for($k = 0; $k <= count($soal) - 1; $k++){
                 $id = SoalPilgan::insertGetId([
@@ -110,7 +111,7 @@ class SoalController extends Controller
                 ]);
                 for($l = 0; $l <= count($soal[$k]['key']) - 1; $l++){
                     $tambahKey = Key2d::create([
-                        'soal_pg_id' => $id,
+                        'soal_2d_id' => $id,
                         'pilihan' => $soal[$k]['key'][$l]['pilihan'],
                         'value_pilihan' => $soal[$k]['key'][$l]['value_pilihan'],
                     ]);

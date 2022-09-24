@@ -96,7 +96,7 @@
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label class="form-label">Password</label>
-                                        <input type="text" name="password" class="form-control" value="{{ old('password') }}">
+                                        <input type="password" name="password" class="form-control" value="{{ old('password') }}">
                                     </div>
                                 </div>
                                 <div class="col-12">

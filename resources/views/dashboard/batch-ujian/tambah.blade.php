@@ -51,12 +51,12 @@
                 </nav>
             </div>
             <!-- /BREADCRUMB -->
-            
+
             <div class="row layout-top-spacing">
-            
+
                 <div class="col-lg-12 col-12 layout-spacing">
                     <div class="statbox widget box box-shadow">
-                        <div class="widget-header">                                
+                        <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                     <h4>Tambah batch ujian</h4>
@@ -75,7 +75,7 @@
                                                 <option value="{{ $t->transaksi_id }}">
                                                     {{ $t->paketSoal[0]->nama_paket }}
                                                 </option>
-                                            @else 
+                                            @else
                                                 <option value="0">
                                                     Paket soal tidak ada atau telah di hapus
                                                 </option>
@@ -88,9 +88,9 @@
                                     <input class="form-control" type="datetime-local" name="waktu_pelaksanaan">
                                 </div>
                                 <div class="form-group mb-4 mt-3">
-                                    <label for="exampleFormControlFile1">Daftar siswa</label><br>
-                                    <a href="https://docs.google.com/spreadsheets/d/17WMG9pFh5jRpi5jkvJK3VQri-yQ7yxXp/edit?usp=sharing&ouid=115603411936891051531&rtpof=true&sd=true" class="btn btn-block btn-primary" style="margin-bottom: 15px;">Download format excel</a>
-                                    <input type="file" name="siswa" class="form-control file-upload-input" required>    
+                                    <label for="exampleFormControlFile1">Daftar siswa (file excel)</label><br>
+                                    <a target="blank" href="https://docs.google.com/spreadsheets/d/17WMG9pFh5jRpi5jkvJK3VQri-yQ7yxXp/edit?usp=sharing&ouid=115603411936891051531&rtpof=true&sd=true" class="btn btn-block btn-primary" style="margin-bottom: 15px;">Download format excel</a>
+                                    <input type="file" name="siswa" class="form-control file-upload-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
                                 </div>
                                 <input type="submit" name="time" class="mt-4 mb-4 btn btn-primary">
                             </form>
@@ -103,6 +103,6 @@
     </div>
 
     @include('template.include.footer')
-    
+
 </div>
 @endsection

@@ -109,7 +109,7 @@
                                         </div>
                                         <div id="defaultStep-two" class="content" role="tabpanel">
                                             <div class="row layout-top-spacing">
-                    
+
                                                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                                                     <div class="widget-content widget-content-area br-8">
                                                         <table id="zero-config" class="table table-striped dt-table-hover" style="width:100%">
@@ -144,7 +144,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                            
+
                                             </div>
 
                                             <div class="button-action mt-5">
@@ -154,7 +154,7 @@
                                         </div>
                                         <div id="defaultStep-three" class="content" role="tabpanel">
                                             <div class="row layout-top-spacing">
-                    
+
                                                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                                                     <div class="widget-content widget-content-area br-8">
                                                         <table id="zero-config2" class="table table-striped dt-table-hover" style="width:100%">
@@ -189,7 +189,7 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                            
+
                                             </div>
 
                                             <div class="button-action mt-3">
@@ -198,7 +198,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </form>
                             </div>
 

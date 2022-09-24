@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\PaketSoal;
 use App\Models\Transaksi;
 use App\Models\BatchUjian;
+use App\Models\JawabanSiswa;
 
 class DashboardController extends Controller
 {
@@ -72,7 +73,6 @@ class DashboardController extends Controller
     }
     function detailBatch($id){
         $batch = BatchUjian::with('transaksi')->where('batch_id', $id)->first();
-        // dd($batch->siswa);
 
         return view('dashboard.batch-ujian.detail', compact('batch'));
     }
@@ -107,5 +107,21 @@ class DashboardController extends Controller
         ]);
 
         return redirect()->route('dashboard-batch');
+    }
+
+    public function ubahTokenBatch($id, $token){
+        $batch = BatchUjian::where('batch_id', $id)->first();
+        $siswa_update = $batch->siswa;
+
+        $index = array_search($token, array_column($siswa_update, 'token'));
+
+        $randomNumber = random_int(1, 9);
+        $siswa_update[$index]['token'] = $siswa_update[$index]['token'].$randomNumber;
+        
+        $batch->update([
+            'siswa' => $siswa_update
+        ]);
+
+        return redirect()->back();
     }
 }
