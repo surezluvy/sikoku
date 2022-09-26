@@ -114,7 +114,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-lg-12 col-12 ">
-                                            <a target="blank" href="https://docs.google.com/spreadsheets/d/1aCtm45ODMj8DNhtx9SCxgAlOQKE6AUj0/edit?usp=sharing&ouid=115603411936891051531&rtpof=true&sd=true" class="btn btn-primary mb-4">Download format Excel</a>
+                                            <a target="blank" href="https://docs.google.com/spreadsheets/d/1Z4dO_p0G5CMDc_UItvLadfAD8V414kESm_kppEgMxEM/edit?usp=sharing" class="btn btn-primary mb-4">Download format Excel</a>
                                             <input type="hidden" name="tipe" value="{{ $tipe }}">
                                             <input type="file" name="soal" class="form-control file-upload-input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
                                         </div>

@@ -71,8 +71,8 @@ class TestController extends Controller
                     }
                     
                 }
-                return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
             }
+            return redirect()->route('test')->with(['error' => 'Token yang anda masukkan salah, silahkan hubungi Guru anda']);
         }
 
     }
